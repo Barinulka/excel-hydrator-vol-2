@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ProjectRepository;
+use App\Repository\MainRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProjectRepository::class)]
-class Project
+#[ORM\Entity(repositoryClass: MainRepository::class)]
+class Main
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,8 +20,11 @@ class Project
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $code = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $block_text = null;
 
     public function getId(): ?int
     {
@@ -52,14 +55,26 @@ class Project
         return $this;
     }
 
-    public function getCode(): ?string
+    public function getImage(): ?string
     {
-        return $this->code;
+        return $this->image;
     }
 
-    public function setCode(string $code): static
+    public function setImage(?string $image): static
     {
-        $this->code = $code;
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getBlockText(): ?string
+    {
+        return $this->block_text;
+    }
+
+    public function setBlockText(?string $block_text): static
+    {
+        $this->block_text = $block_text;
 
         return $this;
     }
