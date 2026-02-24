@@ -13,8 +13,16 @@
         {% endblock %}
     </head>
     <body>
-        {% block header %}{% endblock %}
+        {% set fallbackImage = asset('placeholders/content-placeholder.svg') %}
+
+        {% block header %}
+            {{ include('blocks/base/main-header.html.twig') }}
+        {% endblock %}
+
         {% block body %}{% endblock %}
-        {% block footer %}{% endblock %}
+
+        {% block footer %}
+            {{ include('blocks/base/main-footer.html.twig') }}
+        {% endblock %}
     </body>
 </html>

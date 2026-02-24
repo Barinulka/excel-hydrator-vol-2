@@ -1,0 +1,30 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Модули админ-панели{% endblock %}
+
+{% block main %}
+    <section class="admin-dashboard">
+        <div class="admin-dashboard__intro">
+            <h1 class="admin-dashboard__headline">Управление контентом</h1>
+            <p class="admin-dashboard__lead">
+                Выберите модуль для перехода к данным.
+            </p>
+        </div>
+
+        <div class="admin-dashboard__grid">
+            {% for module in modules %}
+                <a class="module-card" href="{{ module.url }}">
+                    <span class="module-card__icon"><i class="{{ module.icon }}" aria-hidden="true"></i></span>
+                    <h2 class="module-card__title">{{ module.title }}</h2>
+                    <p class="module-card__description">{{ module.description }}</p>
+                    {% if module.count|default(false) %}
+                        <div class="module-card__meta">
+                            <span class="module-card__count">{{ module.count }}</span>
+                            <span class="module-card__label">записей</span>
+                        </div>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

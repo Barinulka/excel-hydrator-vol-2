@@ -5,10 +5,18 @@ namespace App\Entity;
 use App\Repository\MainRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: MainRepository::class)]
 class Main
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -22,6 +30,10 @@ class Main
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[Assert\Image(mimeTypes: ['image/webp', 'image/jpeg', 'image/png'])]
+    #[Vich\UploadableField(mapping: 'main', fileNameProperty: 'image')]
+    private UploadedFile|File|null $imageFile = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $block_text = null;
@@ -63,6 +75,24 @@ class Main
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImageFile(): File|UploadedFile|null
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(File|UploadedFile|null $imageFile): static
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTime();
+        }
 
         return $this;
     }

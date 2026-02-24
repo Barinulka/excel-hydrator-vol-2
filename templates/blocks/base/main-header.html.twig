@@ -1,0 +1,28 @@
+<header class="header">
+    <div class="container">
+        <nav class="nav">
+            <div class="nav__logo">
+                <a href="/">FinModelPro</a>
+            </div>
+            <div class="nav__elems">
+                <a class="nav__btn nav__btn-link" href="{{ path('app_project') }}">
+                    {{ app.user ? 'К проектам' : 'Попробовать' }}
+                </a>
+                {% if app.user %}
+                    <details class="nav__menu">
+                        <summary class="nav__menu-trigger" aria-label="Меню аккаунта">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </summary>
+                        <div class="nav__menu-dropdown">
+                            <form method="post" action="{{ path('app_logout') }}" class="nav__logout-form">
+                                <button class="nav__menu-item" type="submit">Выйти</button>
+                            </form>
+                        </div>
+                    </details>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+</header> 

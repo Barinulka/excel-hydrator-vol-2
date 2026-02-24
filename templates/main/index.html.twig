@@ -1,15 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% set title = page and page.title ? page.title : 'Финансовая модель под задачи вашего бизнеса' %}
+
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <main class="main-page">
+        <section class="main">
+            <div class="container">
+                <div class="main__layout">
+                    <div class="main__content">
+                        <h1 id="main-title" class="main__title">{{ title }}</h1>
+                        <div class="main__text">
+                            {{ page.description|default(false)|raw }}
+                        </div>
+                    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/aleksejbarinov/Документы/Work/excel-hydrator-vol-2/src/Controller/MainController.php</code></li>
-        <li>Your template at <code>/Users/aleksejbarinov/Документы/Work/excel-hydrator-vol-2/templates/main/index.html.twig</code></li>
-    </ul>
-</div>
+                    <div class="main__media">
+                        <img
+                            class="main__image"
+                            src="{{ vich_uploader_asset(page, 'imageFile')|default(fallbackImage) }}"
+                            alt=" "
+                            fetchpriority="high"
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 {% endblock %}

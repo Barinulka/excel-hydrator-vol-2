@@ -16,28 +16,13 @@ class MainRepository extends ServiceEntityRepository
         parent::__construct($registry, Main::class);
     }
 
-    //    /**
-    //     * @return Main[] Returns an array of Main objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Main
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        public function findMainPageData(): ?Main
+        {
+            return $this->createQueryBuilder('m')
+                ->orderBy('m.id', 'ASC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+        }
 }

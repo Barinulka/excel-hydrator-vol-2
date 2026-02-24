@@ -1,3 +1,6 @@
-body {
-    background-color: skyblue;
-}
+@import "./layouts/base.css";
+@import "./layouts/header/header.css";
+@import "./layouts/footer/footer.css";
+@import "./pages/main.css";
+@import "./pages/auth.css";
+@import "./pages/project.css";

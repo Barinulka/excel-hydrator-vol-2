@@ -1,0 +1,33 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+fos_ck_editor:
+    autoload: true
+    input_sync: true
+    configs:
+        default_config:
+            toolbar: "my_full"
+            uiColor: "#ffffff"
+            language: ru
+            allowedContent: true
+            removePlugins: removeEmpty #exportpdf
+            basicEntities: false
+            versionCheck: false
+    toolbars:
+        configs:
+            my_full: [
+                [ 'Source','DocProps' ],
+                [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+                [ 'Find','Replace','-','SelectAll','RemoveFormat' ],
+                '/',
+                [ 'Bold','Italic','Underline', 'Strike', '-','Subscript','Superscript' ],
+                [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ],
+                [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyFull' ],
+                [ 'Link','Unlink','Anchor' ],
+                [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ],
+                '/',
+                [ 'Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor' ],
+                [ 'FitWindow','ShowBlocks', 'Maximize' ]
+            ]
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

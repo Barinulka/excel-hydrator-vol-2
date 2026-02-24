@@ -1,19 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Регистрация{% endblock %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<main class="auth-page">
+    <div class="auth-overlay"></div>
+    <section class="auth-modal" aria-labelledby="auth-title">
+        <h1 id="auth-title" class="auth-title">Регистрация</h1>
 
-    {{ form_errors(registrationForm) }}
+        <div class="auth-errors">
+            {{ form_errors(registrationForm) }}
+        </div>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_start(registrationForm, { attr: { class: 'auth-form' } }) }}
+            <div class="auth-field">
+                {{ form_label(registrationForm.email, 'Email', { label_attr: { class: 'auth-label' } }) }}
+                {{ form_widget(registrationForm.email, { attr: { class: 'auth-input', autocomplete: 'email' } }) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+            <div class="auth-field">
+                {{ form_label(registrationForm.plainPassword, 'Пароль', { label_attr: { class: 'auth-label' } }) }}
+                {{ form_widget(registrationForm.plainPassword, { attr: { class: 'auth-input', autocomplete: 'new-password' } }) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <button type="submit" class="auth-button">Зарегистрироваться</button>
+
+            <p class="auth-switch">
+                Уже есть аккаунт?
+                <a href="{{ path('app_login') }}">Войти</a>
+            </p>
+        {{ form_end(registrationForm) }}
+    </section>
+</main>
 {% endblock %}
