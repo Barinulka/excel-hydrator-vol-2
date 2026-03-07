@@ -1,11 +1,7 @@
-{% extends 'base.html.twig' %}
-{% block stylesheets %}
-{% endblock %}
+{% extends '@front/base.html.twig' %}
 
-{% block javascripts %}
-    {% block importmap %}{{ importmap('app') }}{% endblock %}
-{% endblock %}
+{% block title %}Проекты | Общая{% endblock %}
 
 {% block body %}
-    <h1>Hello</h1>
+    {{ include('blocks/projects/common.html.twig') }}
 {% endblock %}

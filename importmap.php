@@ -12,6 +12,10 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
+    'base' => [
+        'path' => './assets/base.js',
+        'entrypoint' => true,
+    ],
     'app' => [
         'path' => './assets/app.js',
         'entrypoint' => true,
@@ -24,5 +28,9 @@ return [
     ],
     '@hotwired/turbo' => [
         'version' => '7.3.0',
+    ],
+    'project' => [
+        'path' => './assets/entries/project.js',
+        'entrypoint' => true,
     ],
 ];

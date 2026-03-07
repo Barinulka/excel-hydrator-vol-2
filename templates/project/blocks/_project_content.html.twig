@@ -1,0 +1,39 @@
+{% if selectedProject is defined and selectedProject %}
+    <article class="project-summary-card">
+        <h3 class="project-summary-card__title">{{ selectedProject.title|default('Без названия') }}</h3>
+        <p class="project-summary-card__meta">Код проекта: {{ selectedProject.code|default('NO CODE') }}</p>
+        <p class="project-summary-card__text">
+            {{ selectedProject.description ?: 'Описание проекта пока не заполнено.' }}
+        </p>
+    </article>
+
+    <div class="projects-empty">
+        <h3 class="projects-empty__title">Создать модель</h3>
+        <p class="projects-empty__text">У выбранного проекта пока нет добавленных моделей.</p>
+        <a class="projects-empty__btn" href="#" aria-disabled="true">Создать модель</a>
+    </div>
+
+{# Заглушка для будущего вывода реальных данных по моделям проекта.
+    {% if projectModelStubs|default([]) %}
+        {% for model in projectModelStubs %}
+            <article class="model-card">
+                <h3 class="model-card__title">{{ model.title }}</h3>
+                <p class="model-card__text">{{ model.description }}</p>
+                <a class="model-card__link" href="#" aria-disabled="true">К модели</a>
+            </article>
+        {% endfor %}
+    {% else %}
+        <div class="projects-empty">
+            <h3 class="projects-empty__title">Создать модель</h3>
+            <p class="projects-empty__text">У выбранного проекта пока нет добавленных моделей.</p>
+            <a class="projects-empty__btn" href="#" aria-disabled="true">Создать модель</a>
+        </div>
+    {% endif %}
+#}
+{% else %}
+    <div class="projects-empty">
+        <h3 class="projects-empty__title">Проектов пока нет</h3>
+        <p class="projects-empty__text">Добавьте проект, чтобы здесь появилась информация по выбранному проекту.</p>
+        <a class="projects-empty__btn" href="{{ path('app_project_create') }}" data-turbo-frame="project_content">Добавить проект</a>
+    </div>
+{% endif %}

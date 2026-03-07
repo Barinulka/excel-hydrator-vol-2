@@ -1,0 +1,75 @@
+<main class="front-projects">
+    <section class="front-projects__section">
+        <div class="container">
+            <div class="projects-layout">
+                <aside class="projects-sidebar">
+                    <div class="projects-sidebar__intro">
+                        <h1 class="projects-sidebar__title">Проекты</h1>
+                        <p class="projects-sidebar__lead">Рабочее пространство по проектам и моделям.</p>
+                    </div>
+
+                    <nav class="projects-sidebar__nav" aria-label="Список проектов">
+                        <div class="projects-sidebar__row projects-sidebar__row--active">
+                            <a class="projects-sidebar__item projects-sidebar__item--active" href="{{ path('front', {slug: 'index'}) }}">
+                                <span class="projects-sidebar__name">Retail Forecast</span>
+                                <span class="projects-sidebar__meta">active</span>
+                            </a>
+                            <a class="projects-sidebar__edit-btn" href="{{ path('front', {slug: 'project-edit'}) }}" aria-label="Редактировать проект">
+                                ✎
+                            </a>
+                        </div>
+                        <div class="projects-sidebar__row">
+                            <a class="projects-sidebar__item" href="{{ path('front', {slug: 'project-edit'}) }}">
+                                <span class="projects-sidebar__name">Factory Plan</span>
+                                <span class="projects-sidebar__meta">without models</span>
+                            </a>
+                            <a class="projects-sidebar__edit-btn" href="{{ path('front', {slug: 'project-edit'}) }}" aria-label="Редактировать проект">
+                                ✎
+                            </a>
+                        </div>
+                        <div class="projects-sidebar__row">
+                            <a class="projects-sidebar__item" href="{{ path('front', {slug: 'project-edit'}) }}">
+                                <span class="projects-sidebar__name">E-com Unit Economy</span>
+                                <span class="projects-sidebar__meta">2 models</span>
+                            </a>
+                            <a class="projects-sidebar__edit-btn" href="{{ path('front', {slug: 'project-edit'}) }}" aria-label="Редактировать проект">
+                                ✎
+                            </a>
+                        </div>
+                    </nav>
+                </aside>
+
+                <section class="projects-content">
+                    <div class="projects-content__toolbar projects-content__toolbar--stacked">
+                        <div class="projects-content__headline">
+                            <h2 class="projects-content__title">Модели проекта Retail Forecast</h2>
+                        </div>
+                        <div class="projects-content__controls">
+                            <a class="projects-content__action" href="{{ path('front', {slug: 'project-add'}) }}">
+                                Добавить проект
+                            </a>
+                            <a class="projects-content__inline-edit" href="{{ path('front', {slug: 'project-edit'}) }}">
+                                <span class="projects-content__inline-edit-icon">✎</span>
+                                <span>Редактировать</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="projects-content__cards">
+                        <article class="model-card">
+                            <h3 class="model-card__title">Cash Flow 2026</h3>
+                            <p class="model-card__text">Прогноз движения денежных средств и операционной маржи.</p>
+                            <a class="model-card__link" href="{{ path('front', {slug: 'placeholder'}) }}">К модели</a>
+                        </article>
+
+                        <article class="model-card">
+                            <h3 class="model-card__title">P&L Scenario B</h3>
+                            <p class="model-card__text">Сценарный расчет выручки и затрат по кварталам.</p>
+                            <a class="model-card__link" href="{{ path('front', {slug: 'placeholder'}) }}">К модели</a>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</main>

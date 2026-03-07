@@ -1,0 +1,38 @@
+{{ form_start(projectForm, {
+    action: projectFormAction|default(path('app_project_create')),
+    method: 'POST',
+    attr: {
+        class: 'project-form',
+        'data-controller': 'project-form-validation',
+        'data-action': 'submit->project-form-validation#validateForm',
+        'data-turbo-frame': 'project_content',
+        novalidate: 'novalidate'
+    }
+}) }}
+    {{ form_errors(projectForm) }}
+
+    <label class="project-form__field">
+        {{ form_label(projectForm.title, null, { label_attr: { class: 'project-form__label' } }) }}
+        {{ form_widget(projectForm.title) }}
+        <span class="project-form__client-error" data-project-form-validation-target="titleError"></span>
+        {{ form_errors(projectForm.title) }}
+    </label>
+
+    <label class="project-form__field">
+        {{ form_label(projectForm.code, null, { label_attr: { class: 'project-form__label' } }) }}
+        {{ form_widget(projectForm.code) }}
+        <span class="project-form__client-error" data-project-form-validation-target="codeError"></span>
+        {{ form_errors(projectForm.code) }}
+    </label>
+
+    <label class="project-form__field">
+        {{ form_label(projectForm.description, null, { label_attr: { class: 'project-form__label' } }) }}
+        {{ form_widget(projectForm.description) }}
+        {{ form_errors(projectForm.description) }}
+    </label>
+
+    <div class="project-form__actions">
+        <button class="project-form__submit" type="submit">{{ projectFormSubmitLabel|default('Сохранить') }}</button>
+        <a class="project-form__cancel" href="{{ projectFormCancelUrl|default(path('app_project')) }}" data-turbo-frame="project_content">Отмена</a>
+    </div>
+{{ form_end(projectForm) }}

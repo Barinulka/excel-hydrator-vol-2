@@ -1,24 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'project-base.htm.twig' %}
 
-{% block title %}Проекты{% endblock %}
+{% set projectView = projectView|default('list') %}
+
+{% block title %}Проекты | {{ projectView == 'create' ? 'Добавление' : (projectView == 'edit' ? 'Редактирование' : 'Общая') }}{% endblock %}
 
 {% block body %}
-<main class="project-page">
-    <section class="project">
-        <div class="container">
-            <div class="project__card">
-                <h1 class="project__title">Раздел проектов</h1>
-                <p class="project__text">
-                    Базовая страница готова. Следующим шагом сюда можно добавить список проектов и фильтрацию.
-                </p>
-
-                <ul class="project__meta">
-                    <li>Контроллер: <code>{{ controller_name }}</code></li>
-                    <li>Шаблон: <code>templates/project/index.html.twig</code></li>
-                </ul>
+    <main class="front-projects">
+        <section class="front-projects__section">
+            <div class="container">
+                {{ include('project/blocks/_project_content_frame.html.twig') }}
             </div>
-        </div>
-    </section>
-</main>
-
+        </section>
+    </main>
 {% endblock %}

@@ -1,0 +1,34 @@
+<aside class="projects-sidebar">
+    <div class="projects-sidebar__intro">
+        <h1 class="projects-sidebar__title">Проекты</h1>
+        <p class="projects-sidebar__lead">Рабочее пространство по проектам и моделям.</p>
+    </div>
+
+    {% if projects|default(false) %}
+        <nav class="projects-sidebar__nav" aria-label="Список проектов">
+            {% for project in projects %}
+                {% set isActive = selectedProject is defined and selectedProject and selectedProject.id == project.id %}
+                <div class="projects-sidebar__row {% if isActive %}projects-sidebar__row--active{% endif %}">
+                    <a
+                        class="projects-sidebar__item {% if isActive %}projects-sidebar__item--active{% endif %}"
+                        href="{{ path('app_project_show', { shortId: project.shortId }) }}"
+                        data-turbo-frame="project_content"
+                    >
+                        <span class="projects-sidebar__name">{{ project.title|default('Без названия') }}</span>
+                        <span class="projects-sidebar__meta">{{ project.code|default('NO CODE') }}</span>
+                    </a>
+                    <a
+                        class="projects-sidebar__edit-btn"
+                        href="{{ path('app_project_edit', { shortId: project.shortId }) }}"
+                        aria-label="Редактировать проект"
+                        data-turbo-frame="project_content"
+                    >
+                        ✎
+                    </a>
+                </div>
+            {% endfor %}
+        </nav>
+    {% else %}
+        <p class="projects-sidebar__empty">Проектов пока нет.</p>
+    {% endif %}
+</aside>

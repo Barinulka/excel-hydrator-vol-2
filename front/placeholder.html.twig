@@ -1,0 +1,21 @@
+{% extends '@front/base.html.twig' %}
+
+{% block title %}Раздел в разработке{% endblock %}
+
+{% block body %}
+    <main class="front-projects">
+        <section class="front-projects__section">
+            <div class="container">
+                <article class="projects-placeholder">
+                    <h1 class="projects-placeholder__title">Раздел в разработке</h1>
+                    <p class="projects-placeholder__text">
+                        Этот переход пока не подключен к рабочему роуту и отображает заглушку.
+                    </p>
+                    <a class="projects-placeholder__back" href="{{ path('front', {slug: 'index'}) }}">
+                        Вернуться к проектам
+                    </a>
+                </article>
+            </div>
+        </section>
+    </main>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% for message in app.flashes('success') %}
+    <div
+        class="projects-alert projects-alert_success"
+        data-controller="flash-alert"
+        data-flash-alert-delay-value="4500"
+    >
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% if projectView in ['create', 'edit'] %}
+    <div class="projects-content__toolbar">
+        <h2 class="projects-content__title">{{ projectView == 'edit' ? 'Редактировать проект' : 'Добавить проект' }}</h2>
+        <a
+            class="projects-content__ghost"
+            href="{{ projectFormCancelUrl|default(path('app_project')) }}"
+            data-turbo-frame="project_content"
+        >
+            Вернуться к списку
+        </a>
+    </div>
+
+    {{ include('project/blocks/_project_create_form.html.twig') }}
+{% else %}
+    {{ include('project/blocks/_project_nav_menu.html.twig') }}
+
+    <div id="project_cards" class="projects-content__cards">
+        {{ include('project/blocks/_project_content.html.twig') }}
+    </div>
+{% endif %}

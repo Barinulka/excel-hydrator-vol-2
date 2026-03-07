@@ -1,0 +1,81 @@
+<main class="front-projects">
+    <section class="front-projects__section">
+        <div class="container">
+            <div class="projects-layout">
+                <aside class="projects-sidebar">
+                    <div class="projects-sidebar__intro">
+                        <h1 class="projects-sidebar__title">Проекты</h1>
+                        <p class="projects-sidebar__lead">Рабочее пространство по проектам и моделям.</p>
+                    </div>
+
+                    <nav class="projects-sidebar__nav" aria-label="Список проектов">
+                        <div class="projects-sidebar__row">
+                            <a class="projects-sidebar__item" href="{{ path('front', {slug: 'index'}) }}">
+                                <span class="projects-sidebar__name">Retail Forecast</span>
+                                <span class="projects-sidebar__meta">active</span>
+                            </a>
+                            <a class="projects-sidebar__edit-btn" href="{{ path('front', {slug: 'project-edit'}) }}" aria-label="Редактировать проект">
+                                ✎
+                            </a>
+                        </div>
+                        <div class="projects-sidebar__row projects-sidebar__row--active">
+                            <a class="projects-sidebar__item projects-sidebar__item--active" href="{{ path('front', {slug: 'project-edit'}) }}">
+                                <span class="projects-sidebar__name">Factory Plan</span>
+                                <span class="projects-sidebar__meta">without models</span>
+                            </a>
+                            <a class="projects-sidebar__edit-btn" href="{{ path('front', {slug: 'project-edit'}) }}" aria-label="Редактировать проект">
+                                ✎
+                            </a>
+                        </div>
+                        <div class="projects-sidebar__row">
+                            <a class="projects-sidebar__item" href="{{ path('front', {slug: 'project-edit'}) }}">
+                                <span class="projects-sidebar__name">E-com Unit Economy</span>
+                                <span class="projects-sidebar__meta">2 models</span>
+                            </a>
+                            <a class="projects-sidebar__edit-btn" href="{{ path('front', {slug: 'project-edit'}) }}" aria-label="Редактировать проект">
+                                ✎
+                            </a>
+                        </div>
+                    </nav>
+                </aside>
+
+                <section class="projects-content">
+                    <div class="projects-content__toolbar">
+                        <h2 class="projects-content__title">Редактирование проекта Factory Plan</h2>
+                        <a class="projects-content__action" href="{{ path('front', {slug: 'project-add'}) }}">
+                            Добавить проект
+                        </a>
+                    </div>
+
+                    <form class="project-form" action="{{ path('front', {slug: 'placeholder'}) }}" method="post">
+                        <label class="project-form__field">
+                            <span class="project-form__label">Название проекта</span>
+                            <input class="project-form__input" type="text" value="Factory Plan">
+                        </label>
+
+                        <label class="project-form__field">
+                            <span class="project-form__label">Код проекта</span>
+                            <input class="project-form__input" type="text" value="FAC-PLAN">
+                        </label>
+
+                        <label class="project-form__field">
+                            <span class="project-form__label">Описание</span>
+                            <textarea class="project-form__textarea" rows="4">Проект находится на этапе подготовки моделей.</textarea>
+                        </label>
+
+                        <div class="project-form__actions">
+                            <button class="project-form__submit" type="submit">Сохранить изменения</button>
+                            <a class="project-form__cancel" href="{{ path('front', {slug: 'index'}) }}">Назад</a>
+                        </div>
+                    </form>
+
+                    <div class="projects-empty">
+                        <p class="projects-empty__title">Создать модель</p>
+                        <p class="projects-empty__text">У выбранного проекта пока нет добавленных моделей.</p>
+                        <a class="projects-empty__btn" href="{{ path('front', {slug: 'placeholder'}) }}">Создать модель</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</main>
