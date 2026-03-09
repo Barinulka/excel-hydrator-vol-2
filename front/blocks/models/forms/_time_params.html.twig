@@ -1,0 +1,26 @@
+<form class="model-form" action="{{ path('front', {slug: 'placeholder'}) }}" method="post">
+    <article class="model-panel">
+        <h3 class="model-panel__title">Временные параметры</h3>
+        <div class="model-fields">
+            <label class="model-field">
+                <span class="model-field__label">Старт модели</span>
+                <input class="project-form__input" type="month" value="2026-01">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">Горизонт, месяцев</span>
+                <input class="project-form__input" type="number" value="24" min="1">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">Шаг расчета</span>
+                <select class="project-form__input">
+                    <option selected>Месяц</option>
+                    <option>Квартал</option>
+                </select>
+            </label>
+        </div>
+    </article>
+
+    <div class="project-form__actions">
+        <button class="project-form__submit" type="submit">Сохранить вкладку</button>
+    </div>
+</form>

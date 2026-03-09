@@ -1,0 +1,88 @@
+{% set modelTab = modelTab|default('time_params') %}
+
+<main class="front-projects front-models">
+    <section class="front-projects__section">
+        <div class="container">
+            <turbo-frame id="model_content">
+                <div class="projects-layout">
+                    <aside class="projects-sidebar">
+                        <div class="projects-sidebar__intro">
+                            <h1 class="projects-sidebar__title">Модель</h1>
+                            <p class="projects-sidebar__lead">Cash Flow 2026</p>
+                        </div>
+
+                        <nav class="projects-sidebar__nav" aria-label="Вкладки модели">
+                            <div class="projects-sidebar__row {% if modelTab == 'time_params' %}projects-sidebar__row--active{% endif %}">
+                                <a
+                                    class="projects-sidebar__item {% if modelTab == 'time_params' %}projects-sidebar__item--active{% endif %}"
+                                    href="{{ path('front', {slug: 'model'}) }}"
+                                    data-turbo-frame="model_content"
+                                >
+                                    <span class="projects-sidebar__name">Временные параметры</span>
+                                    <span class="projects-sidebar__meta">Период и шаг</span>
+                                </a>
+                            </div>
+                            <div class="projects-sidebar__row {% if modelTab == 'ebitda' %}projects-sidebar__row--active{% endif %}">
+                                <a
+                                    class="projects-sidebar__item {% if modelTab == 'ebitda' %}projects-sidebar__item--active{% endif %}"
+                                    href="{{ path('front', {slug: 'model-ebitda'}) }}"
+                                    data-turbo-frame="model_content"
+                                >
+                                    <span class="projects-sidebar__name">EBITDA</span>
+                                    <span class="projects-sidebar__meta">Финансовые параметры</span>
+                                </a>
+                            </div>
+                            <div class="projects-sidebar__row {% if modelTab == 'salary' %}projects-sidebar__row--active{% endif %}">
+                                <a
+                                    class="projects-sidebar__item {% if modelTab == 'salary' %}projects-sidebar__item--active{% endif %}"
+                                    href="{{ path('front', {slug: 'model-salary'}) }}"
+                                    data-turbo-frame="model_content"
+                                >
+                                    <span class="projects-sidebar__name">Зарплаты</span>
+                                    <span class="projects-sidebar__meta">Команда и ФОТ</span>
+                                </a>
+                            </div>
+                            <div class="projects-sidebar__row {% if modelTab == 'other' %}projects-sidebar__row--active{% endif %}">
+                                <a
+                                    class="projects-sidebar__item {% if modelTab == 'other' %}projects-sidebar__item--active{% endif %}"
+                                    href="{{ path('front', {slug: 'model-other'}) }}"
+                                    data-turbo-frame="model_content"
+                                >
+                                    <span class="projects-sidebar__name">Прочее</span>
+                                    <span class="projects-sidebar__meta">Доп. настройки</span>
+                                </a>
+                            </div>
+                        </nav>
+                    </aside>
+
+                    <section class="projects-content model-workspace">
+                        <div class="projects-content__toolbar projects-content__toolbar--stacked">
+                            <div class="projects-content__headline model-workspace__headline">
+                                <p class="model-workspace__eyebrow">Модель проекта Retail Forecast</p>
+                                <h2 class="projects-content__title">Cash Flow 2026</h2>
+                            </div>
+                            <div class="projects-content__controls">
+                                <a class="projects-content__ghost" href="{{ path('front', {slug: 'index'}) }}" data-turbo-frame="_top">
+                                    К списку моделей
+                                </a>
+                                <a class="projects-content__action" href="{{ path('front', {slug: 'placeholder'}) }}">
+                                    Сохранить
+                                </a>
+                            </div>
+                        </div>
+
+                        {% if modelTab == 'ebitda' %}
+                            {{ include('@front/blocks/models/forms/_ebitda.html.twig') }}
+                        {% elseif modelTab == 'salary' %}
+                            {{ include('@front/blocks/models/forms/_salary.html.twig') }}
+                        {% elseif modelTab == 'other' %}
+                            {{ include('@front/blocks/models/forms/_other.html.twig') }}
+                        {% else %}
+                            {{ include('@front/blocks/models/forms/_time_params.html.twig') }}
+                        {% endif %}
+                    </section>
+                </div>
+            </turbo-frame>
+        </div>
+    </section>
+</main>

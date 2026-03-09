@@ -1,0 +1,35 @@
+<form class="model-form" action="{{ path('front', {slug: 'placeholder'}) }}" method="post">
+    <article class="model-panel">
+        <h3 class="model-panel__title">EBITDA (базовый сценарий)</h3>
+        <div class="model-fields model-fields--three">
+            <label class="model-field">
+                <span class="model-field__label">Выручка, ₽</span>
+                <input class="project-form__input" type="number" value="12800000">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">OPEX, ₽</span>
+                <input class="project-form__input" type="number" value="9400000">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">EBITDA маржа, %</span>
+                <input class="project-form__input" type="number" value="26.6" step="0.1">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">Рост выручки, %</span>
+                <input class="project-form__input" type="number" value="8.0" step="0.1">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">Рост OPEX, %</span>
+                <input class="project-form__input" type="number" value="5.0" step="0.1">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">Tax shield, %</span>
+                <input class="project-form__input" type="number" value="2.0" step="0.1">
+            </label>
+        </div>
+    </article>
+
+    <div class="project-form__actions">
+        <button class="project-form__submit" type="submit">Сохранить вкладку</button>
+    </div>
+</form>

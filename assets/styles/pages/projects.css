@@ -162,6 +162,10 @@
     display: block;
 }
 
+.front-projects turbo-frame#model_content {
+    display: block;
+}
+
 .projects-content__toolbar {
     display: flex;
     justify-content: space-between;
@@ -403,6 +407,7 @@
 .project-form__input,
 .project-form__textarea {
     width: 100%;
+    box-sizing: border-box;
     padding: 10px 12px;
     border: 1px solid #c8d8ea;
     border-radius: 10px;
@@ -410,6 +415,11 @@
     font-size: 15px;
     color: #14253d;
     background: #fbfdff;
+}
+
+.project-form__input {
+    min-height: 42px;
+    line-height: 1.2;
 }
 
 .project-form__input:focus,
@@ -481,6 +491,125 @@
     font-size: 18px;
 }
 
+.model-workspace__headline {
+    display: grid;
+    gap: 4px;
+}
+
+.front-models .projects-sidebar__item {
+    padding-right: 12px;
+}
+
+.front-models input.project-form__input,
+.front-models select.project-form__input {
+    height: 42px;
+    min-height: 42px;
+}
+
+.model-workspace__eyebrow {
+    margin: 0;
+    color: #5a7190;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.model-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 14px;
+}
+
+.model-tabs__item {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    background: #f7fbff;
+    color: #355172;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: border-color .15s ease, background-color .15s ease, transform .15s ease;
+}
+
+.model-tabs__item:hover {
+    transform: translateY(-1px);
+    border-color: #8fb5e6;
+    background: #edf4ff;
+}
+
+.model-tabs__item--active {
+    border-color: #85b0e6;
+    background: #eef5ff;
+    color: #1f3f66;
+}
+
+.model-panel {
+    margin-top: 12px;
+    padding: 14px;
+    border: 1px solid #dbe4ef;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.model-form {
+    display: grid;
+    gap: 0;
+}
+
+.model-panel__title {
+    margin: 0 0 12px;
+    font-size: 20px;
+    line-height: 1.2;
+    color: #14253d;
+}
+
+.model-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.model-fields--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.model-field {
+    display: grid;
+    gap: 6px;
+}
+
+.model-field__label {
+    font-size: 13px;
+    color: #3f5778;
+    font-weight: 700;
+}
+
+.model-field--comment {
+    margin-top: 10px;
+}
+
+.model-salary-list {
+    display: grid;
+    gap: 8px;
+}
+
+.model-salary-list__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    background: #f7fbff;
+    color: #234061;
+}
+
 @media (max-width: 1220px) {
     .projects-content__toolbar {
         flex-wrap: wrap;
@@ -505,6 +634,11 @@
     }
 
     .projects-content__cards {
+        grid-template-columns: 1fr;
+    }
+
+    .model-fields,
+    .model-fields--three {
         grid-template-columns: 1fr;
     }
 }

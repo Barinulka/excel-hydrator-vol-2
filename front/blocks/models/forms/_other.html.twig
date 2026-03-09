@@ -1,0 +1,32 @@
+<form class="model-form" action="{{ path('front', {slug: 'placeholder'}) }}" method="post">
+    <article class="model-panel">
+        <h3 class="model-panel__title">Прочие настройки</h3>
+        <div class="model-fields">
+            <label class="model-field">
+                <span class="model-field__label">Валюта</span>
+                <select class="project-form__input">
+                    <option selected>RUB</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">Дисконт, %</span>
+                <input class="project-form__input" type="number" value="14.0" step="0.1">
+            </label>
+            <label class="model-field">
+                <span class="model-field__label">Инфляция, %</span>
+                <input class="project-form__input" type="number" value="5.0" step="0.1">
+            </label>
+        </div>
+
+        <label class="model-field model-field--comment">
+            <span class="model-field__label">Комментарии</span>
+            <textarea class="project-form__textarea" rows="4">Проверить значения после загрузки факта за Q2.</textarea>
+        </label>
+    </article>
+
+    <div class="project-form__actions">
+        <button class="project-form__submit" type="submit">Сохранить вкладку</button>
+    </div>
+</form>
