@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -17,6 +19,7 @@ class Project
     public function __construct()
     {
         $this->publicId = new Ulid();
+        $this->models = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -47,6 +50,12 @@ class Project
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     private ?User $author = null;
+
+    /**
+     * @var Collection<int, Model>
+     */
+    #[ORM\OneToMany(targetEntity: Model::class, mappedBy: 'project')]
+    private Collection $models;
 
     public function getId(): ?int
     {
@@ -121,6 +130,31 @@ class Project
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Model>
+     */
+    public function getModels(): Collection
+    {
+        return $this->models;
+    }
+
+    public function addModel(Model $model): static
+    {
+        if (!$this->models->contains($model)) {
+            $this->models->add($model);
+            $model->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModel(Model $model): static
+    {
+        $this->models->removeElement($model);
 
         return $this;
     }
