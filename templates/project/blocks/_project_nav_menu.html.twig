@@ -1,6 +1,8 @@
+{% set selectedProject = page.selectedProject|default(null) %}
+
 <div class="projects-content__toolbar projects-content__toolbar--stacked">
     <div class="projects-content__headline">
-        {% if selectedProject is defined and selectedProject %}
+        {% if selectedProject %}
             <h2 class="projects-content__title">Модели проекта {{ selectedProject.title|default('Без названия') }}</h2>
         {% else %}
             <h2 class="projects-content__title">Выберите проект</h2>
@@ -12,9 +14,9 @@
         </a>
         <a
             class="projects-content__inline-edit"
-            href="{% if selectedProject is defined and selectedProject %}{{ path('app_project_edit', { shortId: selectedProject.shortId }) }}{% else %}#{% endif %}"
+            href="{% if selectedProject and selectedProject.shortId %}{{ path('app_project_edit', { shortId: selectedProject.shortId }) }}{% else %}#{% endif %}"
             data-turbo-frame="project_content"
-            {% if selectedProject is not defined or not selectedProject %}aria-disabled="true"{% endif %}
+            {% if not selectedProject or not selectedProject.shortId %}aria-disabled="true"{% endif %}
         >
             <span class="projects-content__inline-edit-icon">✎</span>
             <span>Редактировать</span>

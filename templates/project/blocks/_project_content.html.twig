@@ -1,4 +1,6 @@
-{% if selectedProject is defined and selectedProject %}
+{% set selectedProject = page.selectedProject|default(null) %}
+
+{% if selectedProject %}
     <article class="project-summary-card">
         <h3 class="project-summary-card__title">{{ selectedProject.title|default('Без названия') }}</h3>
         <p class="project-summary-card__meta">Код проекта: {{ selectedProject.code|default('NO CODE') }}</p>
@@ -13,9 +15,8 @@
         <a class="projects-empty__btn" href="#" aria-disabled="true">Создать модель</a>
     </div>
 
-{# Заглушка для будущего вывода реальных данных по моделям проекта.
-    {% if projectModelStubs|default([]) %}
-        {% for model in projectModelStubs %}
+    {% if selectedProject.modelStubs|default([]) %}
+        {% for model in selectedProject.modelStubs %}
             <article class="model-card">
                 <h3 class="model-card__title">{{ model.title }}</h3>
                 <p class="model-card__text">{{ model.description }}</p>
@@ -29,7 +30,6 @@
             <a class="projects-empty__btn" href="#" aria-disabled="true">Создать модель</a>
         </div>
     {% endif %}
-#}
 {% else %}
     <div class="projects-empty">
         <h3 class="projects-empty__title">Проектов пока нет</h3>

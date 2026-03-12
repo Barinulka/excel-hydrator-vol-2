@@ -4,24 +4,27 @@
         <p class="projects-sidebar__lead">Рабочее пространство по проектам и моделям.</p>
     </div>
 
-    {% if projects|default(false) %}
+    {% set sidebarItems = page.sidebarItems|default([]) %}
+
+    {% if sidebarItems %}
         <nav class="projects-sidebar__nav" aria-label="Список проектов">
-            {% for project in projects %}
-                {% set isActive = selectedProject is defined and selectedProject and selectedProject.id == project.id %}
-                <div class="projects-sidebar__row {% if isActive %}projects-sidebar__row--active{% endif %}">
+            {% for project in sidebarItems %}
+                <div class="projects-sidebar__row {% if project.isActive %}projects-sidebar__row--active{% endif %}">
                     <a
-                        class="projects-sidebar__item {% if isActive %}projects-sidebar__item--active{% endif %}"
-                        href="{{ path('app_project_show', { shortId: project.shortId }) }}"
+                        class="projects-sidebar__item {% if project.isActive %}projects-sidebar__item--active{% endif %}"
+                        href="{{ project.shortId ? path('app_project_show', { shortId: project.shortId }) : '#' }}"
                         data-turbo-frame="project_content"
+                        {% if not project.shortId %}aria-disabled="true"{% endif %}
                     >
                         <span class="projects-sidebar__name">{{ project.title|default('Без названия') }}</span>
                         <span class="projects-sidebar__meta">{{ project.code|default('NO CODE') }}</span>
                     </a>
                     <a
                         class="projects-sidebar__edit-btn"
-                        href="{{ path('app_project_edit', { shortId: project.shortId }) }}"
+                        href="{{ project.shortId ? path('app_project_edit', { shortId: project.shortId }) : '#' }}"
                         aria-label="Редактировать проект"
                         data-turbo-frame="project_content"
+                        {% if not project.shortId %}aria-disabled="true"{% endif %}
                     >
                         ✎
                     </a>

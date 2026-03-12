@@ -19,30 +19,6 @@ class ProjectService
     public function getUserProjects(User $user): array
     {
         $projects = $this->projectRepository->getProjectByUser($user);
-        $needFlush = false;
-        $reservedShortIds = [];
-
-        foreach ($projects as $project) {
-            if (null !== $project->getShortId()) {
-                $reservedShortIds[$project->getShortId()] = true;
-            }
-        }
-
-        foreach ($projects as $project) {
-            if (null === $project->getPublicId()) {
-                $project->ensurePublicId();
-                $needFlush = true;
-            }
-
-            if (null === $project->getShortId()) {
-                $project->setShortId($this->generateUniqueShortId($reservedShortIds));
-                $needFlush = true;
-            }
-        }
-
-        if ($needFlush) {
-            $this->projectRepository->flush();
-        }
 
         return $projects;
     }

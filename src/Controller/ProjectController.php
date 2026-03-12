@@ -2,26 +2,29 @@
 
 namespace App\Controller;
 
+use App\DTO\Projects\ProjectPageDTO;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Form\ProjectType;
+use App\Mapper\ProjectPageMapper;
 use App\Service\ProjectService;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ProjectController extends BaseAbstractController
 {
     #[Route('/project', name: 'app_project', methods: ['GET'])]
-    public function index(Request $request, ProjectService $service): Response
+    public function index(Request $request, ProjectService $service, ProjectPageMapper $pageMapper): Response
     {
         $user = $this->getAuthorizedUser();
+        $page = $this->buildPageDto($service, $pageMapper, $user);
 
-        return $this->renderProjectPage($request, $this->buildListContext($service, $user));
+        return $this->renderProjectPage($request, $this->buildRenderContext($page));
     }
 
     #[Route('/project/{shortId<[A-Za-z0-9]{10}>}', name: 'app_project_show', methods: ['GET'])]
-    public function show(Request $request, string $shortId, ProjectService $service): Response
+    public function show(Request $request, string $shortId, ProjectService $service, ProjectPageMapper $pageMapper): Response
     {
         $user = $this->getAuthorizedUser();
         $selectedProject = $service->findUserProjectByShortId($user, $shortId);
@@ -29,14 +32,16 @@ final class ProjectController extends BaseAbstractController
         if (null === $selectedProject) {
             throw $this->createNotFoundException('Проект не найден.');
         }
+        $page = $this->buildPageDto($service, $pageMapper, $user, $selectedProject);
 
-        return $this->renderProjectPage($request, $this->buildListContext($service, $user, $selectedProject));
+        return $this->renderProjectPage($request, $this->buildRenderContext($page));
     }
 
     #[Route('/project/create', name: 'app_project_create', methods: ['GET', 'POST'])]
     public function create(
         Request $request,
         ProjectService $service,
+        ProjectPageMapper $pageMapper,
     ): Response {
         $user = $this->getAuthorizedUser();
 
@@ -52,7 +57,8 @@ final class ProjectController extends BaseAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $service->saveProject($project);
             $this->addFlash('success', 'Проект успешно создан.');
-            $listContext = $this->buildListContext($service, $user, $project);
+            $page = $this->buildPageDto($service, $pageMapper, $user, $project);
+            $listContext = $this->buildRenderContext($page);
 
             if ($this->isProjectContentFrameRequest($request)) {
                 return $this->render('project/blocks/_project_content_frame.html.twig', $listContext);
@@ -63,12 +69,13 @@ final class ProjectController extends BaseAbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        $createContext = $this->buildListContext($service, $user);
-        $createContext['projectView'] = 'create';
-        $createContext['projectForm'] = $form->createView();
-        $createContext['projectFormAction'] = $this->generateUrl('app_project_create');
-        $createContext['projectFormCancelUrl'] = $this->generateUrl('app_project');
-        $createContext['projectFormSubmitLabel'] = 'Сохранить';
+        $page = $this->buildPageDto($service, $pageMapper, $user, null, 'create');
+        $createContext = $this->buildRenderContext($page, [
+            'projectForm' => $form->createView(),
+            'projectFormAction' => $this->generateUrl('app_project_create'),
+            'projectFormCancelUrl' => $this->generateUrl('app_project'),
+            'projectFormSubmitLabel' => 'Сохранить',
+        ]);
 
         return $this->renderProjectPage($request, $createContext);
     }
@@ -78,6 +85,7 @@ final class ProjectController extends BaseAbstractController
         Request $request,
         string $shortId,
         ProjectService $service,
+        ProjectPageMapper $pageMapper,
     ): Response {
         $user = $this->getAuthorizedUser();
         $project = $service->findUserProjectByShortId($user, $shortId);
@@ -97,7 +105,8 @@ final class ProjectController extends BaseAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $service->saveProject($project);
             $this->addFlash('success', 'Проект успешно обновлен.');
-            $listContext = $this->buildListContext($service, $user, $project);
+            $page = $this->buildPageDto($service, $pageMapper, $user, $project);
+            $listContext = $this->buildRenderContext($page);
 
             if ($this->isProjectContentFrameRequest($request)) {
                 return $this->render('project/blocks/_project_content_frame.html.twig', $listContext);
@@ -108,12 +117,13 @@ final class ProjectController extends BaseAbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        $editContext = $this->buildListContext($service, $user, $project);
-        $editContext['projectView'] = 'edit';
-        $editContext['projectForm'] = $form->createView();
-        $editContext['projectFormAction'] = $this->generateUrl('app_project_edit', ['shortId' => $project->getShortId()]);
-        $editContext['projectFormCancelUrl'] = $this->generateUrl('app_project_show', ['shortId' => $project->getShortId()]);
-        $editContext['projectFormSubmitLabel'] = 'Сохранить изменения';
+        $page = $this->buildPageDto($service, $pageMapper, $user, $project, 'edit');
+        $editContext = $this->buildRenderContext($page, [
+            'projectForm' => $form->createView(),
+            'projectFormAction' => $this->generateUrl('app_project_edit', ['shortId' => $project->getShortId()]),
+            'projectFormCancelUrl' => $this->generateUrl('app_project_show', ['shortId' => $project->getShortId()]),
+            'projectFormSubmitLabel' => 'Сохранить изменения',
+        ]);
 
         return $this->renderProjectPage($request, $editContext);
     }
@@ -132,49 +142,45 @@ final class ProjectController extends BaseAbstractController
         return 'project_content' === $request->headers->get('Turbo-Frame');
     }
 
-    private function buildListContext(ProjectService $service, User $user, ?Project $selectedProject = null): array
+    private function buildPageDto(
+        ProjectService $service,
+        ProjectPageMapper $pageMapper,
+        User $user,
+        ?Project $selectedProject = null,
+        string $projectView = 'list',
+    ): ProjectPageDTO
     {
         $projects = $service->getUserProjects($user);
-        $selectedProjectInList = null;
+        $selectedProjectInList = $this->resolveSelectedProject($projects, $selectedProject);
 
-        if ([] !== $projects) {
-            if (null !== $selectedProject) {
-                foreach ($projects as $project) {
-                    if ($project->getId() === $selectedProject->getId()) {
-                        $selectedProjectInList = $project;
-                        break;
-                    }
-                }
-            }
-
-            $selectedProjectInList ??= $projects[0];
-        }
-
-        return [
-            'projects' => $projects,
-            'projectView' => 'list',
-            'selectedProject' => $selectedProjectInList,
-            'projectModelStubs' => $this->buildProjectModelStubs($selectedProjectInList),
-        ];
+        return $pageMapper->mapPage($projects, $selectedProjectInList, $projectView);
     }
 
-    private function buildProjectModelStubs(?Project $selectedProject): array
+    /**
+     * @param list<Project> $projects
+     */
+    private function resolveSelectedProject(array $projects, ?Project $selectedProject = null): ?Project
     {
-        if (null === $selectedProject) {
-            return [];
+        if ([] === $projects) {
+            return null;
         }
 
-        $projectTitle = $selectedProject->getTitle() ?? 'Проект';
+        if (null !== $selectedProject) {
+            foreach ($projects as $project) {
+                if ($project->getId() === $selectedProject->getId()) {
+                    return $project;
+                }
+            }
+        }
 
-        return [
-            [
-                'title' => sprintf('%s / Базовый сценарий', $projectTitle),
-                'description' => 'Заглушка модели: здесь позже появятся реальные параметры и показатели.',
-            ],
-            [
-                'title' => sprintf('%s / Оптимистичный сценарий', $projectTitle),
-                'description' => 'Заглушка модели: карточка для демонстрации переключения по проектам.',
-            ],
-        ];
+        return $projects[0];
+    }
+
+    private function buildRenderContext(ProjectPageDTO $page, array $extra = []): array
+    {
+        return array_merge([
+            'page' => $page,
+            'projectView' => $page->projectView,
+        ], $extra);
     }
 }

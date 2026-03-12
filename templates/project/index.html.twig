@@ -1,6 +1,6 @@
 {% extends 'project-base.htm.twig' %}
 
-{% set projectView = projectView|default('list') %}
+{% set projectView = page.projectView|default(projectView|default('list')) %}
 
 {% block title %}Проекты | {{ projectView == 'create' ? 'Добавление' : (projectView == 'edit' ? 'Редактирование' : 'Общая') }}{% endblock %}
 

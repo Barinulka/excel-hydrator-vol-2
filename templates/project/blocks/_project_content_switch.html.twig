@@ -8,6 +8,8 @@
     </div>
 {% endfor %}
 
+{% set projectView = page.projectView|default(projectView|default('list')) %}
+
 {% if projectView in ['create', 'edit'] %}
     <div class="projects-content__toolbar">
         <h2 class="projects-content__title">{{ projectView == 'edit' ? 'Редактировать проект' : 'Добавить проект' }}</h2>
