@@ -91,7 +91,7 @@
 
 ### Работа с проектами
 
-- `src/Service/ProjectService.php`
+- `src/Service/Project/ProjectService.php`
 
 Отвечает за:
 
@@ -332,7 +332,7 @@ Turbo:
 
 ## Изменить поведение проекта
 
-- `src/Service/ProjectService.php`
+- `src/Service/Project/ProjectService.php`
 - `src/Form/ProjectType.php`
 - `src/Entity/Project.php`
 
@@ -415,7 +415,7 @@ docker compose up -d excel-hydrator
 Рекомендуемый порядок чтения:
 
 1. `src/Controller/ProjectController.php`
-2. `src/Service/ProjectService.php`
+2. `src/Service/Project/ProjectService.php`
 3. `src/Controller/ModelController.php`
 4. `src/Service/ModelService.php`
 5. `src/Service/Excel/ModelExcelPayloadBuilder.php`

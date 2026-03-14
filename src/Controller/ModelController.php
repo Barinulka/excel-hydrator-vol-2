@@ -8,7 +8,7 @@ use App\Form\ModelCreateType;
 use App\Service\Excel\ModelExcelPayloadBuilder;
 use App\Service\ExcelModelGenerator;
 use App\Service\ModelService;
-use App\Service\ProjectService;
+use App\Service\Project\ProjectService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Project;
 
 use App\Entity\Project;
 use App\Entity\User;
