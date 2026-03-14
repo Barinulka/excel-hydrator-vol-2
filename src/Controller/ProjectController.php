@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use App\DTO\Projects\ProjectPageDTO;
-use App\Entity\Project;
-use App\Entity\User;
 use App\Form\ProjectType;
-use App\Mapper\ProjectPageMapper;
+use App\Service\ProjectPageBuilder;
 use App\Service\ProjectService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,16 +13,20 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ProjectController extends BaseAbstractController
 {
     #[Route('/project', name: 'app_project', methods: ['GET'])]
-    public function index(Request $request, ProjectService $service, ProjectPageMapper $pageMapper): Response
+    public function index(Request $request, ProjectPageBuilder $projectPageBuilder): Response
     {
-        $user = $this->getAuthorizedUser();
-        $page = $this->buildPageDto($service, $pageMapper, $user);
+        $page = $projectPageBuilder->build($this->getAuthorizedUser());
 
         return $this->renderProjectPage($request, $this->buildRenderContext($page));
     }
 
     #[Route('/project/{shortId<[A-Za-z0-9]{10}>}', name: 'app_project_show', methods: ['GET'])]
-    public function show(Request $request, string $shortId, ProjectService $service, ProjectPageMapper $pageMapper): Response
+    public function show(
+        Request $request,
+        string $shortId,
+        ProjectService $service,
+        ProjectPageBuilder $projectPageBuilder,
+    ): Response
     {
         $user = $this->getAuthorizedUser();
         $selectedProject = $service->findUserProjectByShortId($user, $shortId);
@@ -32,7 +34,7 @@ final class ProjectController extends BaseAbstractController
         if (null === $selectedProject) {
             throw $this->createNotFoundException('Проект не найден.');
         }
-        $page = $this->buildPageDto($service, $pageMapper, $user, $selectedProject);
+        $page = $projectPageBuilder->build($user, $selectedProject);
 
         return $this->renderProjectPage($request, $this->buildRenderContext($page));
     }
@@ -41,7 +43,7 @@ final class ProjectController extends BaseAbstractController
     public function create(
         Request $request,
         ProjectService $service,
-        ProjectPageMapper $pageMapper,
+        ProjectPageBuilder $projectPageBuilder,
     ): Response {
         $user = $this->getAuthorizedUser();
 
@@ -57,10 +59,10 @@ final class ProjectController extends BaseAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $service->saveProject($project);
             $this->addFlash('success', 'Проект успешно создан.');
-            $page = $this->buildPageDto($service, $pageMapper, $user, $project);
+            $page = $projectPageBuilder->build($user, $project);
             $listContext = $this->buildRenderContext($page);
 
-            if ($this->isProjectContentFrameRequest($request)) {
+            if ($this->isTurboFrameRequest($request, 'project_content')) {
                 return $this->render('project/blocks/_project_content_frame.html.twig', $listContext);
             }
 
@@ -69,7 +71,7 @@ final class ProjectController extends BaseAbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        $page = $this->buildPageDto($service, $pageMapper, $user, null, 'create');
+        $page = $projectPageBuilder->build($user, null, 'create');
         $createContext = $this->buildRenderContext($page, [
             'projectForm' => $form->createView(),
             'projectFormAction' => $this->generateUrl('app_project_create'),
@@ -85,7 +87,7 @@ final class ProjectController extends BaseAbstractController
         Request $request,
         string $shortId,
         ProjectService $service,
-        ProjectPageMapper $pageMapper,
+        ProjectPageBuilder $projectPageBuilder,
     ): Response {
         $user = $this->getAuthorizedUser();
         $project = $service->findUserProjectByShortId($user, $shortId);
@@ -105,10 +107,10 @@ final class ProjectController extends BaseAbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $service->saveProject($project);
             $this->addFlash('success', 'Проект успешно обновлен.');
-            $page = $this->buildPageDto($service, $pageMapper, $user, $project);
+            $page = $projectPageBuilder->build($user, $project);
             $listContext = $this->buildRenderContext($page);
 
-            if ($this->isProjectContentFrameRequest($request)) {
+            if ($this->isTurboFrameRequest($request, 'project_content')) {
                 return $this->render('project/blocks/_project_content_frame.html.twig', $listContext);
             }
 
@@ -117,7 +119,7 @@ final class ProjectController extends BaseAbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        $page = $this->buildPageDto($service, $pageMapper, $user, $project, 'edit');
+        $page = $projectPageBuilder->build($user, $project, 'edit');
         $editContext = $this->buildRenderContext($page, [
             'projectForm' => $form->createView(),
             'projectFormAction' => $this->generateUrl('app_project_edit', ['shortId' => $project->getShortId()]),
@@ -130,50 +132,13 @@ final class ProjectController extends BaseAbstractController
 
     private function renderProjectPage(Request $request, array $context): Response
     {
-        if ($this->isProjectContentFrameRequest($request)) {
-            return $this->render('project/blocks/_project_content_frame.html.twig', $context);
-        }
-
-        return $this->render('project/index.html.twig', $context);
-    }
-
-    private function isProjectContentFrameRequest(Request $request): bool
-    {
-        return 'project_content' === $request->headers->get('Turbo-Frame');
-    }
-
-    private function buildPageDto(
-        ProjectService $service,
-        ProjectPageMapper $pageMapper,
-        User $user,
-        ?Project $selectedProject = null,
-        string $projectView = 'list',
-    ): ProjectPageDTO
-    {
-        $projects = $service->getUserProjects($user);
-        $selectedProjectInList = $this->resolveSelectedProject($projects, $selectedProject);
-
-        return $pageMapper->mapPage($projects, $selectedProjectInList, $projectView);
-    }
-
-    /**
-     * @param list<Project> $projects
-     */
-    private function resolveSelectedProject(array $projects, ?Project $selectedProject = null): ?Project
-    {
-        if ([] === $projects) {
-            return null;
-        }
-
-        if (null !== $selectedProject) {
-            foreach ($projects as $project) {
-                if ($project->getId() === $selectedProject->getId()) {
-                    return $project;
-                }
-            }
-        }
-
-        return $projects[0];
+        return $this->renderFrameOrPage(
+            $request,
+            'project/index.html.twig',
+            'project/blocks/_project_content_frame.html.twig',
+            $context,
+            'project_content',
+        );
     }
 
     private function buildRenderContext(ProjectPageDTO $page, array $extra = []): array

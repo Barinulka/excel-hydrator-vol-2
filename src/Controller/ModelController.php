@@ -261,15 +261,12 @@ final class ModelController extends BaseAbstractController
 
     private function renderModelPage(Request $request, array $context): Response
     {
-        if ($this->isModelContentFrameRequest($request)) {
-            return $this->render('model/blocks/_model_content_frame.html.twig', $context);
-        }
-
-        return $this->render('model/create.html.twig', $context);
-    }
-
-    private function isModelContentFrameRequest(Request $request): bool
-    {
-        return 'model_content' === $request->headers->get('Turbo-Frame');
+        return $this->renderFrameOrPage(
+            $request,
+            'model/create.html.twig',
+            'model/blocks/_model_content_frame.html.twig',
+            $context,
+            'model_content',
+        );
     }
 }
