@@ -1,0 +1,13 @@
+{% extends 'project-base.htm.twig' %}
+
+{% block title %}{{ modelPageTitle|default('Создание модели') }}{% endblock %}
+
+{% block body %}
+    <main class="front-projects front-models">
+        <section class="front-projects__section">
+            <div class="container">
+                {{ include('model/blocks/_model_content_frame.html.twig') }}
+            </div>
+        </section>
+    </main>
+{% endblock %}

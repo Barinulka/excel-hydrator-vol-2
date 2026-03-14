@@ -48,13 +48,7 @@ class ProjectService
             return null;
         }
 
-        foreach ($this->getUserProjects($user) as $project) {
-            if ($project->getShortId() === $shortId) {
-                return $project;
-            }
-        }
-
-        return null;
+        return $this->projectRepository->findOneByAuthorAndShortId($user, $shortId);
     }
 
     private function generateUniqueShortId(array &$reservedShortIds): string

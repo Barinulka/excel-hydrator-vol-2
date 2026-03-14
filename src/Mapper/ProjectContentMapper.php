@@ -18,14 +18,15 @@ final class ProjectContentMapper
             return null;
         }
 
+        $modelStubs = $this->projectModelStubMapper->mapForProject($project);
+
         return new ProjectContentDTO(
             shortId: $project->getShortId() ?? '',
             title: $project->getTitle() ?? 'Без названия',
             code: $project->getCode() ?? 'NO CODE',
             description: $project->getDescription(),
-            modelStubs: $this->projectModelStubMapper->mapForProject($project),
-            hasModels: false,
+            modelStubs: $modelStubs,
+            hasModels: [] !== $modelStubs,
         );
     }
 }
-

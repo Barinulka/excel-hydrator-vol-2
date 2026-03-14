@@ -1,0 +1,30 @@
+<article class="model-panel">
+    <h3 class="model-panel__title">Временные параметры</h3>
+    <div class="model-fields">
+        <label class="model-field">
+            {{ form_label(modelCreateForm.investmentStartMonth, null, { label_attr: { class: 'model-field__label' } }) }}
+            {{ form_widget(modelCreateForm.investmentStartMonth, {
+                attr: {
+                    'data-controller': 'month-picker',
+                    autocomplete: 'off'
+                }
+            }) }}
+            {{ form_errors(modelCreateForm.investmentStartMonth) }}
+        </label>
+        <label class="model-field">
+            {{ form_label(modelCreateForm.investmentDurationMonths, null, { label_attr: { class: 'model-field__label' } }) }}
+            {{ form_widget(modelCreateForm.investmentDurationMonths) }}
+            {{ form_errors(modelCreateForm.investmentDurationMonths) }}
+        </label>
+        <label class="model-field">
+            {{ form_label(modelCreateForm.commercialOperationDurationMonths, null, { label_attr: { class: 'model-field__label' } }) }}
+            {{ form_widget(modelCreateForm.commercialOperationDurationMonths) }}
+            {{ form_errors(modelCreateForm.commercialOperationDurationMonths) }}
+        </label>
+        <label class="model-field">
+            {{ form_label(modelCreateForm.forecastStep, null, { label_attr: { class: 'model-field__label' } }) }}
+            {{ form_widget(modelCreateForm.forecastStep) }}
+            {{ form_errors(modelCreateForm.forecastStep) }}
+        </label>
+    </div>
+</article>

@@ -8,6 +8,16 @@
     </div>
 {% endfor %}
 
+{% for message in app.flashes('error') %}
+    <div
+        class="projects-alert projects-alert_error"
+        data-controller="flash-alert"
+        data-flash-alert-delay-value="5500"
+    >
+        {{ message }}
+    </div>
+{% endfor %}
+
 {% set projectView = page.projectView|default(projectView|default('list')) %}
 
 {% if projectView in ['create', 'edit'] %}

@@ -10,25 +10,91 @@
     </article>
 
     <div class="projects-empty">
-        <h3 class="projects-empty__title">Создать модель</h3>
-        <p class="projects-empty__text">У выбранного проекта пока нет добавленных моделей.</p>
-        <a class="projects-empty__btn" href="#" aria-disabled="true">Создать модель</a>
+        <h3 class="projects-empty__title">{{ selectedProject.hasModels ? 'Добавить модель' : 'Создать модель' }}</h3>
+        <p class="projects-empty__text">
+            {{ selectedProject.hasModels ? 'В проекте уже есть модели. Можно создать еще одну версию.' : 'У выбранного проекта пока нет добавленных моделей.' }}
+        </p>
+        <a
+            class="projects-empty__btn"
+            href="{{ selectedProject.shortId ? path('app_model_create', { projectShortId: selectedProject.shortId }) : '#' }}"
+            data-turbo-frame="_top"
+            {% if not selectedProject.shortId %}aria-disabled="true"{% endif %}
+        >
+            Создать модель
+        </a>
     </div>
 
-    {% if selectedProject.modelStubs|default([]) %}
+    {% if selectedProject.hasModels and selectedProject.modelStubs|default([]) %}
         {% for model in selectedProject.modelStubs %}
-            <article class="model-card">
-                <h3 class="model-card__title">{{ model.title }}</h3>
+            {% set renameToggleId = 'model_rename_toggle_' ~ loop.index ~ '_' ~ model.shortId %}
+            {% set renameInputId = 'model_rename_input_' ~ loop.index ~ '_' ~ model.shortId %}
+            <article class="model-card" data-controller="model-rename">
+                <input
+                    class="model-card__rename-toggle-input"
+                    data-model-rename-target="toggle"
+                    data-action="change->model-rename#toggleChanged"
+                    type="checkbox"
+                    id="{{ renameToggleId }}"
+                >
+
+                <div class="model-card__header">
+                    <h3 class="model-card__title" data-model-rename-target="title">{{ model.title }}</h3>
+                    <label
+                        class="model-card__rename-toggle"
+                        for="{{ renameToggleId }}"
+                        aria-label="Изменить название модели"
+                        title="Изменить название"
+                    >
+                        ✎
+                    </label>
+                </div>
+
+                <form
+                    class="model-card__rename-form"
+                    action="{{ (selectedProject.shortId and model.shortId) ? path('app_model_rename', { projectShortId: selectedProject.shortId, modelShortId: model.shortId }) : '#' }}"
+                    method="post"
+                    data-turbo-frame="project_content"
+                    data-action="submit->model-rename#submit"
+                >
+                    <input
+                        id="{{ renameInputId }}"
+                        class="project-form__input model-card__rename-input"
+                        data-model-rename-target="input"
+                        type="text"
+                        name="title"
+                        value="{{ model.title }}"
+                        maxlength="255"
+                        required
+                    >
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value="{{ csrf_token('model_rename_' ~ model.shortId) }}"
+                    >
+                    <div class="model-card__rename-actions">
+                        <button
+                            class="projects-content__action model-card__rename-submit"
+                            data-model-rename-target="submit"
+                            type="submit"
+                        >
+                            Сохранить
+                        </button>
+                        <label class="model-card__rename-cancel" for="{{ renameToggleId }}">Отмена</label>
+                    </div>
+                    <p class="model-card__rename-feedback" data-model-rename-target="feedback" hidden></p>
+                </form>
+
                 <p class="model-card__text">{{ model.description }}</p>
-                <a class="model-card__link" href="#" aria-disabled="true">К модели</a>
+                <a
+                    class="model-card__link"
+                    href="{{ (selectedProject.shortId and model.shortId) ? path('app_model_edit', { projectShortId: selectedProject.shortId, modelShortId: model.shortId }) : '#' }}"
+                    data-turbo-frame="_top"
+                    {% if not (selectedProject.shortId and model.shortId) %}aria-disabled="true"{% endif %}
+                >
+                    К модели
+                </a>
             </article>
         {% endfor %}
-    {% else %}
-        <div class="projects-empty">
-            <h3 class="projects-empty__title">Создать модель</h3>
-            <p class="projects-empty__text">У выбранного проекта пока нет добавленных моделей.</p>
-            <a class="projects-empty__btn" href="#" aria-disabled="true">Создать модель</a>
-        </div>
     {% endif %}
 {% else %}
     <div class="projects-empty">

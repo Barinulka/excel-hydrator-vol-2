@@ -3,6 +3,7 @@
 namespace App\Mapper;
 
 use App\DTO\Projects\ProjectModelStubDTO;
+use App\Entity\Model;
 use App\Entity\Project;
 
 final class ProjectModelStubMapper
@@ -12,18 +13,19 @@ final class ProjectModelStubMapper
      */
     public function mapForProject(Project $project): array
     {
-        $projectTitle = $project->getTitle() ?? 'Проект';
+        $models = $project->getModels()->toArray();
 
-        return [
-            new ProjectModelStubDTO(
-                title: sprintf('%s / Базовый сценарий', $projectTitle),
-                description: 'Заглушка модели: здесь позже появятся реальные параметры и показатели.',
+        usort($models, static function (Model $a, Model $b): int {
+            return ($b->getVersionNumber() ?? 0) <=> ($a->getVersionNumber() ?? 0);
+        });
+
+        return array_map(
+            static fn (Model $model): ProjectModelStubDTO => new ProjectModelStubDTO(
+                title: $model->getTitle() ?? sprintf('Модель %s', $model->getVersionLabel()),
+                description: sprintf('Версия: %s.', $model->getVersionLabel()),
+                shortId: $model->getShortId() ?? '',
             ),
-            new ProjectModelStubDTO(
-                title: sprintf('%s / Оптимистичный сценарий', $projectTitle),
-                description: 'Заглушка модели: карточка для демонстрации переключения по проектам.',
-            ),
-        ];
+            $models
+        );
     }
 }
-

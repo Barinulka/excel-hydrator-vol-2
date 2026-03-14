@@ -43,6 +43,19 @@ class ModelRepository extends ServiceEntityRepository
         return (int) $count > 0;
     }
 
+    public function findOneByProjectAndShortId(Project $project, string $shortId): ?Model
+    {
+        $qb = $this->createQueryBuilder('m');
+
+        return $qb
+            ->where('m.project = :project')
+            ->andWhere('m.short_id = :shortId')
+            ->setParameter('project', $project)
+            ->setParameter('shortId', $shortId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function save(Model $model, bool $flush = true): void
     {
         $entityManager = $this->getEntityManager();

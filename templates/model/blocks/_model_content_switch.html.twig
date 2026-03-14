@@ -1,0 +1,9 @@
+{% if modelTab == 'time_params' %}
+    {{ include('model/blocks/_model_create_time_params_form.html.twig') }}
+{% else %}
+    <div class="projects-empty">
+        <h3 class="projects-empty__title">Вкладка недоступна</h3>
+        <p class="projects-empty__text">Пока реализована только вкладка "Временные параметры".</p>
+    </div>
+{% endif %}
+

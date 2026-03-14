@@ -1,5 +1,15 @@
 
 services:
+  excel-hydrator:
+    build:
+      context: ./go/excel-hydrator
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./excel/templates:/app/templates:ro
+      - ./excel/output:/app/output
+    restart: unless-stopped
+
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine

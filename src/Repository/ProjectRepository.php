@@ -52,4 +52,17 @@ class ProjectRepository extends ServiceEntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult() > 0;
     }
+
+    public function findOneByAuthorAndShortId(User $author, string $shortId): ?Project
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb
+            ->where('p.author = :author')
+            ->andWhere('p.shortId = :shortId')
+            ->setParameter('author', $author)
+            ->setParameter('shortId', $shortId)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

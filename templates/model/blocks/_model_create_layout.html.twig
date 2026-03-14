@@ -1,0 +1,86 @@
+{% set modelTab = modelTab|default('time_params') %}
+{% set modelFormId = modelFormId|default('model_form') %}
+
+<div class="projects-layout">
+    <aside class="projects-sidebar">
+        <div class="projects-sidebar__intro">
+            <h1 class="projects-sidebar__title">Модель</h1>
+            <p class="projects-sidebar__lead">{{ model.title|default('Новая модель') }}</p>
+        </div>
+
+        <nav class="projects-sidebar__nav" aria-label="Вкладки модели">
+            <div class="projects-sidebar__row {% if modelTab == 'time_params' %}projects-sidebar__row--active{% endif %}">
+                <a
+                    class="projects-sidebar__item {% if modelTab == 'time_params' %}projects-sidebar__item--active{% endif %}"
+                    href="{{ modelTabTimeParamsUrl|default(path('app_model_create', { projectShortId: project.shortId })) }}"
+                    data-turbo-frame="model_content"
+                >
+                    <span class="projects-sidebar__name">Временные параметры</span>
+                    <span class="projects-sidebar__meta">Период и шаг</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <section class="projects-content model-workspace">
+        <div class="projects-content__toolbar projects-content__toolbar--stacked">
+            <div class="projects-content__headline model-workspace__headline">
+                <p class="model-workspace__eyebrow">Модель проекта {{ project.title|default('Без названия') }}</p>
+                <h2 class="projects-content__title">{{ model.title|default('Новая модель') }}</h2>
+            </div>
+            <div class="projects-content__controls">
+                <a
+                    class="projects-content__ghost"
+                    href="{{ path('app_project_show', { shortId: project.shortId }) }}"
+                    data-turbo-frame="_top"
+                >
+                    К списку моделей
+                </a>
+                {% if modelExportUrl is defined %}
+                    <form
+                        class="model-export-form"
+                        action="{{ modelExportUrl }}"
+                        method="post"
+                        data-turbo="false"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token('model_export_' ~ model.shortId) }}"
+                        >
+                        <button class="projects-content__secondary" type="submit">Выгрузить в excel</button>
+                    </form>
+                {% else %}
+                    <button
+                        class="projects-content__secondary"
+                        type="button"
+                        disabled
+                        title="Сначала сохраните модель"
+                    >
+                        Выгрузить в excel
+                    </button>
+                {% endif %}
+                <button
+                    class="projects-content__action"
+                    type="submit"
+                    form="{{ modelFormId }}"
+                >
+                    {{ modelSubmitLabel|default('Сохранить') }}
+                </button>
+            </div>
+        </div>
+
+        {{ form_start(modelCreateForm, {
+            action: modelFormAction|default(path('app_model_create', { projectShortId: project.shortId })),
+            method: 'POST',
+            attr: {
+                id: modelFormId,
+                class: 'model-form',
+                'data-turbo-frame': '_top'
+            }
+        }) }}
+            {{ form_errors(modelCreateForm) }}
+            {{ include('model/blocks/_model_content_switch.html.twig') }}
+        {{ form_end(modelCreateForm) }}
+    </section>
+</div>

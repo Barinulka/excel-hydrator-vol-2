@@ -33,4 +33,18 @@ return [
         'path' => './assets/entries/project.js',
         'entrypoint' => true,
     ],
+    'flatpickr' => [
+        'version' => '4.6.13',
+    ],
+    'flatpickr/dist/plugins/monthSelect/index.js' => [
+        'version' => '4.6.13',
+    ],
+    'flatpickr/dist/flatpickr.min.css' => [
+        'version' => '4.6.13',
+        'type' => 'css',
+    ],
+    'flatpickr/dist/plugins/monthSelect/style.css' => [
+        'version' => '4.6.13',
+        'type' => 'css',
+    ],
 ];

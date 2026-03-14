@@ -188,6 +188,12 @@
     color: var(--color-success-text);
 }
 
+.projects-alert_error {
+    border-color: #f1c4c4;
+    background: #fff4f4;
+    color: #8e2323;
+}
+
 .projects-alert--hidden {
     opacity: 0;
     transform: translateY(-4px);
@@ -232,6 +238,7 @@
 }
 
 .projects-content__action,
+.projects-content__secondary,
 .projects-content__ghost,
 .model-card__link,
 .project-form__submit,
@@ -259,7 +266,15 @@
     max-width: 100%;
 }
 
+.projects-content__secondary {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    max-width: 100%;
+    background: #1b8650;
+}
+
 .projects-content__action:hover,
+.projects-content__secondary:hover,
 .projects-content__ghost:hover,
 .model-card__link:hover,
 .project-form__submit:hover,
@@ -271,6 +286,22 @@
 
 .projects-content__ghost {
     background: #4b6589;
+}
+
+.projects-content__secondary:hover {
+    background: #14663c;
+}
+
+.projects-content__secondary:disabled {
+    cursor: not-allowed;
+    opacity: .65;
+    background: #7aa88f;
+    transform: none;
+}
+
+.model-export-form {
+    margin: 0;
+    display: inline-flex;
 }
 
 .projects-content__inline-edit {
@@ -340,6 +371,7 @@
 }
 
 .model-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -355,6 +387,118 @@
     font-size: 20px;
     line-height: 1.2;
     color: #14253d;
+}
+
+.model-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.model-card__rename-toggle-input {
+    display: none;
+}
+
+.model-card__rename-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #c8d8ea;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #365170;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color .15s ease, background-color .15s ease, transform .15s ease;
+}
+
+.model-card__rename-toggle:hover {
+    transform: translateY(-1px);
+    border-color: #8fb5e6;
+    background: #edf4ff;
+}
+
+.model-card__rename-toggle-input:checked + .model-card__header .model-card__rename-toggle {
+    border-color: #85b0e6;
+    background: #eef5ff;
+    color: #1f3f66;
+}
+
+.model-card__rename-form {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 16px;
+    right: auto;
+    width: min(440px, calc(100% - 32px));
+    z-index: 5;
+    gap: 8px;
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    background: #f7fbff;
+    box-shadow: 0 12px 28px rgba(16, 36, 63, 0.16);
+}
+
+.model-card__rename-toggle-input:checked + .model-card__header + .model-card__rename-form {
+    display: grid;
+}
+
+.model-card__rename-input {
+    min-height: 40px;
+}
+
+.model-card__rename-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.model-card__rename-submit {
+    min-height: 36px;
+    padding: 0 12px;
+}
+
+.model-card__rename-submit:disabled {
+    cursor: wait;
+    opacity: .75;
+}
+
+.model-card__rename-cancel {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 10px;
+    border-radius: 9px;
+    color: #365170;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.model-card__rename-cancel:hover {
+    background: #edf4ff;
+    color: #1f3f66;
+}
+
+.model-card__rename-feedback {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.model-card__rename-feedback--error {
+    color: #8e2323;
+}
+
+.model-card__rename-feedback--success {
+    color: #1f6d3a;
 }
 
 .model-card__text {
@@ -498,6 +642,27 @@
 
 .front-models .projects-sidebar__item {
     padding-right: 12px;
+}
+
+.front-models .projects-content__ghost {
+    border: 1px solid #c8d8ea;
+    background: #ffffff;
+    color: #355172;
+}
+
+.front-models .projects-content__ghost:hover {
+    border-color: #8fb5e6;
+    background: #edf4ff;
+    color: #1f3f66;
+}
+
+.front-models .projects-content__action {
+    background: #2d5bba;
+    color: #ffffff;
+}
+
+.front-models .projects-content__action:hover {
+    background: #244b97;
 }
 
 .front-models input.project-form__input,
@@ -669,7 +834,10 @@
         align-items: stretch;
     }
 
-    .projects-content__toolbar--stacked .projects-content__controls a {
+    .projects-content__toolbar--stacked .projects-content__controls a,
+    .projects-content__toolbar--stacked .projects-content__controls .model-export-form,
+    .projects-content__toolbar--stacked .projects-content__controls .projects-content__secondary,
+    .projects-content__toolbar--stacked .projects-content__controls .projects-content__action {
         width: 100%;
     }
 
