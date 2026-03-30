@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Page;
 
-use App\DTO\Projects\ProjectPageDTO;
+
+use App\Controller\BaseAbstractController;
+use App\DTO\Project\ProjectPageDTO;
+use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Service\Project\ProjectPageBuilder;
 use App\Service\Project\ProjectService;
@@ -10,12 +13,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class ProjectController extends BaseAbstractController
+final class ProjectPageController extends BaseAbstractController
 {
     #[Route('/project', name: 'app_project', methods: ['GET'])]
-    public function index(Request $request, ProjectPageBuilder $projectPageBuilder): Response
+    public function index(
+        Request $request,
+        ProjectService $service,
+        ProjectPageBuilder $projectPageBuilder,
+    ): Response
     {
-        $page = $projectPageBuilder->build($this->getAuthorizedUser());
+        $projects = $service->getUserProjects($this->getAuthorizedUser());
+        $page = $projectPageBuilder->build($projects);
 
         return $this->renderProjectPage($request, $this->buildRenderContext($page));
     }
@@ -29,23 +37,26 @@ final class ProjectController extends BaseAbstractController
     ): Response
     {
         $user = $this->getAuthorizedUser();
+        $projects = $service->getUserProjects($user);
         $selectedProject = $service->findUserProjectByShortId($user, $shortId);
 
         if (null === $selectedProject) {
             throw $this->createNotFoundException('Проект не найден.');
         }
-        $page = $projectPageBuilder->build($user, $selectedProject);
+
+        $page = $projectPageBuilder->build($projects, $selectedProject);
 
         return $this->renderProjectPage($request, $this->buildRenderContext($page));
     }
 
-    #[Route('/project/create', name: 'app_project_create', methods: ['GET', 'POST'])]
+    #[Route('/project/create', name: 'app_project_create', methods: ['GET'])]
     public function create(
         Request $request,
         ProjectService $service,
         ProjectPageBuilder $projectPageBuilder,
     ): Response {
         $user = $this->getAuthorizedUser();
+        $projects = $service->getUserProjects($user);
 
         $project = $service->createProject($user);
         $form = $this->createForm(ProjectType::class, $project, [
@@ -54,35 +65,21 @@ final class ProjectController extends BaseAbstractController
             ],
         ]);
 
-        $form->handleRequest($request);
+        $page = $projectPageBuilder->build($projects, null, 'create');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $service->saveProject($project);
-            $this->addFlash('success', 'Проект успешно создан.');
-            $page = $projectPageBuilder->build($user, $project);
-            $listContext = $this->buildRenderContext($page);
-
-            if ($this->isTurboFrameRequest($request, 'project_content')) {
-                return $this->render('project/blocks/_project_content_frame.html.twig', $listContext);
-            }
-
-            return $this->redirectToRoute('app_project_show', [
-                'shortId' => $project->getShortId(),
-            ], Response::HTTP_SEE_OTHER);
-        }
-
-        $page = $projectPageBuilder->build($user, null, 'create');
         $createContext = $this->buildRenderContext($page, [
             'projectForm' => $form->createView(),
             'projectFormAction' => $this->generateUrl('app_project_create'),
             'projectFormCancelUrl' => $this->generateUrl('app_project'),
             'projectFormSubmitLabel' => 'Сохранить',
+            'projectApiUrl' => $this->generateUrl('api_project_create'),
+            'projectApiMethod' => 'POST'
         ]);
 
         return $this->renderProjectPage($request, $createContext);
     }
 
-    #[Route('/project/{shortId<[A-Za-z0-9]{10}>}/edit', name: 'app_project_edit', methods: ['GET', 'POST'])]
+    #[Route('/project/{shortId<[A-Za-z0-9]{10}>}/edit', name: 'app_project_edit', methods: ['GET'])]
     public function edit(
         Request $request,
         string $shortId,
@@ -90,6 +87,7 @@ final class ProjectController extends BaseAbstractController
         ProjectPageBuilder $projectPageBuilder,
     ): Response {
         $user = $this->getAuthorizedUser();
+        $projects = $service->getUserProjects($user);
         $project = $service->findUserProjectByShortId($user, $shortId);
 
         if (null === $project) {
@@ -102,29 +100,14 @@ final class ProjectController extends BaseAbstractController
             ],
         ]);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $service->saveProject($project);
-            $this->addFlash('success', 'Проект успешно обновлен.');
-            $page = $projectPageBuilder->build($user, $project);
-            $listContext = $this->buildRenderContext($page);
-
-            if ($this->isTurboFrameRequest($request, 'project_content')) {
-                return $this->render('project/blocks/_project_content_frame.html.twig', $listContext);
-            }
-
-            return $this->redirectToRoute('app_project_show', [
-                'shortId' => $project->getShortId(),
-            ], Response::HTTP_SEE_OTHER);
-        }
-
-        $page = $projectPageBuilder->build($user, $project, 'edit');
+        $page = $projectPageBuilder->build($projects, $project, 'edit');
         $editContext = $this->buildRenderContext($page, [
             'projectForm' => $form->createView(),
             'projectFormAction' => $this->generateUrl('app_project_edit', ['shortId' => $project->getShortId()]),
             'projectFormCancelUrl' => $this->generateUrl('app_project_show', ['shortId' => $project->getShortId()]),
             'projectFormSubmitLabel' => 'Сохранить изменения',
+            'projectApiUrl' => $this->generateUrl('api_project_update', ['shortId' => $project->getShortId()]),
+            'projectApiMethod' => 'PATCH'
         ]);
 
         return $this->renderProjectPage($request, $editContext);
@@ -147,5 +130,19 @@ final class ProjectController extends BaseAbstractController
             'page' => $page,
             'projectView' => $page->projectView,
         ], $extra);
+    }
+
+    /**
+     * @param list<Project> $projects
+     */
+    private function findProjectByShortId(array $projects, string $shortId): ?Project
+    {
+        foreach ($projects as $project) {
+            if ($project->getShortId() === $shortId) {
+                return $project;
+            }
+        }
+
+        return null;
     }
 }

@@ -65,7 +65,7 @@
 
 ### Контроллеры
 
-- `src/Controller/ProjectController.php`
+- `src/Controller/Page/ProjectPageController.php`
 - `src/Controller/ModelController.php`
 - `src/Controller/ExcelController.php`
 

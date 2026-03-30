@@ -3,31 +3,47 @@
     method: 'POST',
     attr: {
         class: 'project-form',
-        'data-controller': 'project-form-validation',
-        'data-action': 'submit->project-form-validation#validateForm',
+        'data-controller': 'project-form',
+        'data-action': 'submit->project-form#submitForm',
         'data-turbo-frame': 'project_content',
+        'data-project-form-api-url-value': projectApiUrl,
+        'data-project-form-api-method-value': projectApiMethod,
         novalidate: 'novalidate'
     }
 }) }}
     {{ form_errors(projectForm) }}
+    <div class="project-form__client-error" data-project-form-target="formError"></div>
 
     <label class="project-form__field">
         {{ form_label(projectForm.title, null, { label_attr: { class: 'project-form__label' } }) }}
-        {{ form_widget(projectForm.title) }}
-        <span class="project-form__client-error" data-project-form-validation-target="titleError"></span>
+        {{ form_widget(projectForm.title, {
+            attr: {
+                'data-project-form-target': 'title'
+            }
+        }) }}
+        <span class="project-form__client-error" data-project-form-target="titleError"></span>
         {{ form_errors(projectForm.title) }}
     </label>
 
     <label class="project-form__field">
         {{ form_label(projectForm.code, null, { label_attr: { class: 'project-form__label' } }) }}
-        {{ form_widget(projectForm.code) }}
-        <span class="project-form__client-error" data-project-form-validation-target="codeError"></span>
+        {{ form_widget(projectForm.code, {
+            attr: {
+                'data-project-form-target': 'code'
+            }
+        }) }}
+        <span class="project-form__client-error" data-project-form-target="codeError"></span>
         {{ form_errors(projectForm.code) }}
     </label>
 
     <label class="project-form__field">
         {{ form_label(projectForm.description, null, { label_attr: { class: 'project-form__label' } }) }}
-        {{ form_widget(projectForm.description) }}
+        {{ form_widget(projectForm.description, {
+            attr: {
+                'data-project-form-target': 'description'
+            }
+        }) }}
+        <span class="project-form__client-error" data-project-form-target="descriptionError"></span>
         {{ form_errors(projectForm.description) }}
     </label>
 

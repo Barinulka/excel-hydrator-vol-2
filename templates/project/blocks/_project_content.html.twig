@@ -28,7 +28,11 @@
         {% for model in selectedProject.modelStubs %}
             {% set renameToggleId = 'model_rename_toggle_' ~ loop.index ~ '_' ~ model.shortId %}
             {% set renameInputId = 'model_rename_input_' ~ loop.index ~ '_' ~ model.shortId %}
-            <article class="model-card" data-controller="model-rename">
+            <article
+                class="model-card"
+                data-controller="model-rename"
+                data-model-rename-api-url-value="{{ (selectedProject.shortId and model.shortId) ? path('api_model_title_update', { projectShortId: selectedProject.shortId, modelShortId: model.shortId }) : '' }}"
+            >
                 <input
                     class="model-card__rename-toggle-input"
                     data-model-rename-target="toggle"
@@ -51,7 +55,7 @@
 
                 <form
                     class="model-card__rename-form"
-                    action="{{ (selectedProject.shortId and model.shortId) ? path('app_model_rename', { projectShortId: selectedProject.shortId, modelShortId: model.shortId }) : '#' }}"
+                    action="{{ (selectedProject.shortId and model.shortId) ? path('api_model_title_update', { projectShortId: selectedProject.shortId, modelShortId: model.shortId }) : '#' }}"
                     method="post"
                     data-turbo-frame="project_content"
                     data-action="submit->model-rename#submit"
@@ -66,11 +70,6 @@
                         maxlength="255"
                         required
                     >
-                    <input
-                        type="hidden"
-                        name="_token"
-                        value="{{ csrf_token('model_rename_' ~ model.shortId) }}"
-                    >
                     <div class="model-card__rename-actions">
                         <button
                             class="projects-content__action model-card__rename-submit"
@@ -81,13 +80,12 @@
                         </button>
                         <label class="model-card__rename-cancel" for="{{ renameToggleId }}">Отмена</label>
                     </div>
-                    <p class="model-card__rename-feedback" data-model-rename-target="feedback" hidden></p>
                 </form>
 
                 <p class="model-card__text">{{ model.description }}</p>
                 <a
                     class="model-card__link"
-                    href="{{ (selectedProject.shortId and model.shortId) ? path('app_model_edit', { projectShortId: selectedProject.shortId, modelShortId: model.shortId }) : '#' }}"
+                    href="{{ (selectedProject.shortId and model.shortId) ? path('app_model_time_params', { projectShortId: selectedProject.shortId, modelShortId: model.shortId }) : '#' }}"
                     data-turbo-frame="_top"
                     {% if not (selectedProject.shortId and model.shortId) %}aria-disabled="true"{% endif %}
                 >

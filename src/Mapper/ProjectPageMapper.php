@@ -2,7 +2,7 @@
 
 namespace App\Mapper;
 
-use App\DTO\Projects\ProjectPageDTO;
+use App\DTO\Project\ProjectPageDTO;
 use App\Entity\Project;
 
 final class ProjectPageMapper

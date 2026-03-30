@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\Projects;
+namespace App\DTO\Project;
 
 final readonly class ProjectPageDTO
 {

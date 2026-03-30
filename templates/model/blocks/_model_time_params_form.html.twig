@@ -1,0 +1,65 @@
+<article class="model-panel">
+    <h3 class="model-panel__title">Временные параметры</h3>
+
+    <div class="project-form__client-error" data-model-time-params-form-target="formError"></div>
+
+    <div class="model-fields">
+        <label class="model-field">
+            <span class="model-field__label">Дата начала инвестиций</span>
+            <input
+                type="month"
+                name="investmentStartMonth"
+                value="{{ timeParams.investmentStartMonth|default('') }}"
+                class="project-form__input"
+                data-controller="month-picker"
+                data-model-time-params-form-target="investmentStartMonth"
+                autocomplete="off"
+            >
+            <span class="project-form__client-error" data-model-time-params-form-target="investmentStartMonthError"></span>
+        </label>
+
+        <label class="model-field">
+            <span class="model-field__label">Длительность инвестиций (мес.)</span>
+            <input
+                type="number"
+                name="investmentDurationMonths"
+                value="{{ timeParams.investmentDurationMonths|default('') }}"
+                min="1"
+                max="600"
+                step="1"
+                class="project-form__input"
+                data-model-time-params-form-target="investmentDurationMonths"
+            >
+            <span class="project-form__client-error" data-model-time-params-form-target="investmentDurationMonthsError"></span>
+        </label>
+
+        <label class="model-field">
+            <span class="model-field__label">Длительность коммерческой работы (мес.)</span>
+            <input
+                type="number"
+                name="commercialOperationDurationMonths"
+                value="{{ timeParams.commercialOperationDurationMonths|default('') }}"
+                min="1"
+                max="1200"
+                step="1"
+                class="project-form__input"
+                data-model-time-params-form-target="commercialOperationDurationMonths"
+            >
+            <span class="project-form__client-error" data-model-time-params-form-target="commercialOperationDurationMonthsError"></span>
+        </label>
+
+        <label class="model-field">
+            <span class="model-field__label">Шаг прогнозирования</span>
+            <select
+                name="forecastStep"
+                class="project-form__input"
+                data-model-time-params-form-target="forecastStep"
+            >
+                <option value="month" {{ timeParams.forecastStep == 'month' ? 'selected' : '' }}>мес.</option>
+                <option value="quarter" {{ timeParams.forecastStep == 'quarter' ? 'selected' : '' }}>кв.</option>
+                <option value="year" {{ timeParams.forecastStep == 'year' ? 'selected' : '' }}>год</option>
+            </select>
+            <span class="project-form__client-error" data-model-time-params-form-target="forecastStepError"></span>
+        </label>
+    </div>
+</article>

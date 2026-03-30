@@ -2,7 +2,7 @@
 
 namespace App\Mapper;
 
-use App\DTO\Projects\ProjectContentDTO;
+use App\DTO\Project\ProjectContentDTO;
 use App\Entity\Project;
 
 final class ProjectContentMapper

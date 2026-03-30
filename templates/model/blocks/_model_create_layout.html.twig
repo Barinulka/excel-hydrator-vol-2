@@ -65,22 +65,20 @@
                     type="submit"
                     form="{{ modelFormId }}"
                 >
-                    {{ modelSubmitLabel|default('Сохранить') }}
+                    {{ timeParamsSubmitLabel|default('Сохранить') }}
                 </button>
             </div>
         </div>
 
-        {{ form_start(modelCreateForm, {
-            action: modelFormAction|default(path('app_model_create', { projectShortId: project.shortId })),
-            method: 'POST',
-            attr: {
-                id: modelFormId,
-                class: 'model-form',
-                'data-turbo-frame': '_top'
-            }
-        }) }}
-            {{ form_errors(modelCreateForm) }}
+        <form
+            id="{{ modelFormId }}"
+            class="model-form"
+            data-controller="model-time-params-form"
+            data-action="submit->model-time-params-form#submitForm"
+            data-model-time-params-form-api-url-value="{{ timeParamsApiUrl|default('') }}"
+            data-model-time-params-form-api-method-value="{{ timeParamsApiMethod|default('') }}"
+        >
             {{ include('model/blocks/_model_content_switch.html.twig') }}
-        {{ form_end(modelCreateForm) }}
+        </form>
     </section>
 </div>

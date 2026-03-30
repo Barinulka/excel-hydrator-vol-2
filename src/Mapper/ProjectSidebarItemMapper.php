@@ -2,7 +2,7 @@
 
 namespace App\Mapper;
 
-use App\DTO\Projects\ProjectSidebarItemDTO;
+use App\DTO\Project\ProjectSidebarItemDTO;
 use App\Entity\Project;
 
 final class ProjectSidebarItemMapper

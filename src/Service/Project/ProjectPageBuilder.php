@@ -2,22 +2,22 @@
 
 namespace App\Service\Project;
 
-use App\DTO\Projects\ProjectPageDTO;
+use App\DTO\Project\ProjectPageDTO;
 use App\Entity\Project;
-use App\Entity\User;
 use App\Mapper\ProjectPageMapper;
 
 final class ProjectPageBuilder
 {
     public function __construct(
-        private ProjectService $projectService,
         private ProjectPageMapper $projectPageMapper,
     ) {
     }
 
-    public function build(User $user, ?Project $selectedProject = null, string $projectView = 'list'): ProjectPageDTO
+    /**
+     * @param list<Project> $projects
+     */
+    public function build(array $projects, ?Project $selectedProject = null, string $projectView = 'list'): ProjectPageDTO
     {
-        $projects = $this->projectService->getUserProjects($user);
         $selectedProjectInList = $this->resolveSelectedProject($projects, $selectedProject);
 
         return $this->projectPageMapper->mapPage($projects, $selectedProjectInList, $projectView);
@@ -33,11 +33,7 @@ final class ProjectPageBuilder
         }
 
         if (null !== $selectedProject) {
-            foreach ($projects as $project) {
-                if ($project->getId() === $selectedProject->getId()) {
-                    return $project;
-                }
-            }
+            return $selectedProject;
         }
 
         return $projects[0];

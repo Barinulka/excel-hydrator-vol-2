@@ -40,8 +40,7 @@ class Project
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Код проекта обязателен для заполнения.')]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Regex(
         pattern: '/^[A-Za-z0-9_-]+$/',
         message: 'Код проекта может содержать только латиницу, цифры, дефис и нижнее подчеркивание.',
@@ -115,7 +114,7 @@ class Project
         return $this->code;
     }
 
-    public function setCode(string $code): static
+    public function setCode(?string $code): static
     {
         $this->code = $code;
 

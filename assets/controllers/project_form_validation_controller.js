@@ -28,8 +28,8 @@ export default class extends Controller {
         const value = this.codeTarget.value.trim();
 
         if (value.length === 0) {
-            this.showError(this.codeErrorTarget, 'Код проекта обязателен для заполнения.');
-            return false;
+            this.clearError(this.codeErrorTarget);
+            return true;
         }
 
         if (!/^[A-Za-z0-9_-]+$/.test(value)) {

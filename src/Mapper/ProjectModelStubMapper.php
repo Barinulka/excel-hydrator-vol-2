@@ -2,7 +2,7 @@
 
 namespace App\Mapper;
 
-use App\DTO\Projects\ProjectModelStubDTO;
+use App\DTO\Project\ProjectModelStubDTO;
 use App\Entity\Model;
 use App\Entity\Project;
 

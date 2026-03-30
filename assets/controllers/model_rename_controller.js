@@ -1,7 +1,11 @@
 import { Controller } from '@hotwired/stimulus';
+import { showToast } from '../utils/toast.js';
 
 export default class extends Controller {
-    static targets = ['toggle', 'title', 'input', 'submit', 'feedback'];
+    static targets = ['toggle', 'title', 'input', 'submit'];
+    static values = {
+        apiUrl: String,
+    };
 
     toggleChanged() {
         if (!this.hasToggleTarget) {
@@ -9,13 +13,11 @@ export default class extends Controller {
         }
 
         if (this.toggleTarget.checked) {
-            this.clearFeedback();
             this.inputTarget.focus();
             this.inputTarget.select();
             return;
         }
 
-        this.clearFeedback();
         this.inputTarget.value = this.titleTarget.textContent.trim();
     }
 
@@ -24,49 +26,50 @@ export default class extends Controller {
 
         const title = this.inputTarget.value.trim();
         if (title.length === 0) {
-            this.showFeedback('Название модели не может быть пустым.', 'error');
+            showToast('Название модели не может быть пустым.', 'error');
             this.inputTarget.focus();
             return;
         }
 
         this.inputTarget.value = title;
-        this.clearFeedback();
 
-        const form = event.currentTarget;
-        const formData = new FormData(form);
+        if (!this.hasApiUrlValue || this.apiUrlValue === '') {
+            showToast('Не найден endpoint для обновления названия модели.', 'error');
+            return;
+        }
+
         this.setLoading(true);
 
         try {
-            const response = await fetch(form.action, {
-                method: 'POST',
+            const response = await fetch(this.apiUrlValue, {
+                method: 'PATCH',
                 headers: {
-                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                 },
-                body: formData,
-                credentials: 'same-origin',
+                body: JSON.stringify({ title }),
             });
 
             const payload = await response.json().catch(() => ({}));
 
             if (!response.ok) {
-                const validationMessage = payload?.errors?.title;
+                const validationMessage = payload?.errors?.title?.[0];
                 const message = validationMessage || payload?.message || 'Не удалось обновить название модели.';
-                this.showFeedback(message, 'error');
+                showToast(message, 'error');
                 return;
             }
 
             const updatedTitle = payload?.title || title;
             this.titleTarget.textContent = updatedTitle;
             this.inputTarget.value = updatedTitle;
-            this.showFeedback(payload?.message || 'Название модели обновлено.', 'success');
+            showToast(payload?.message || 'Название модели обновлено.', 'success');
 
             if (this.hasToggleTarget) {
                 this.toggleTarget.checked = false;
                 this.toggleChanged();
             }
         } catch (error) {
-            this.showFeedback('Сетевая ошибка. Попробуйте еще раз.', 'error');
+            showToast('Сетевая ошибка. Попробуйте еще раз.', 'error');
         } finally {
             this.setLoading(false);
         }
@@ -79,27 +82,5 @@ export default class extends Controller {
         }
 
         this.inputTarget.disabled = isLoading;
-    }
-
-    showFeedback(message, type) {
-        if (!this.hasFeedbackTarget) {
-            return;
-        }
-
-        this.feedbackTarget.hidden = false;
-        this.feedbackTarget.textContent = message;
-        this.feedbackTarget.classList.toggle('model-card__rename-feedback--error', type === 'error');
-        this.feedbackTarget.classList.toggle('model-card__rename-feedback--success', type === 'success');
-    }
-
-    clearFeedback() {
-        if (!this.hasFeedbackTarget) {
-            return;
-        }
-
-        this.feedbackTarget.hidden = true;
-        this.feedbackTarget.textContent = '';
-        this.feedbackTarget.classList.remove('model-card__rename-feedback--error');
-        this.feedbackTarget.classList.remove('model-card__rename-feedback--success');
     }
 }
