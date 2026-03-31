@@ -2,6 +2,8 @@
 
 namespace App\Service\Project;
 
+use App\DTO\Project\Request\CreateProjectRequestDTO;
+use App\DTO\Project\Request\UpdateProjectRequestDTO;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Repository\ProjectRepository;
@@ -49,6 +51,20 @@ class ProjectService
         }
 
         return $this->projectRepository->findOneByAuthorAndShortId($user, $shortId);
+    }
+
+    public function applyCreateRequest(Project $project, CreateProjectRequestDTO $dto): void
+    {
+        $project->setTitle($dto->title);
+        $project->setCode($dto->code);
+        $project->setDescription($dto->description);
+    }
+
+    public function applyUpdateRequest(Project $project, UpdateProjectRequestDTO $dto): void
+    {
+        $project->setTitle($dto->title);
+        $project->setCode($dto->code);
+        $project->setDescription($dto->description);
     }
 
     private function generateUniqueShortId(array &$reservedShortIds): string

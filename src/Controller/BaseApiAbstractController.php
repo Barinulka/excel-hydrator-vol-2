@@ -2,11 +2,19 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 abstract class BaseApiAbstractController extends BaseAbstractController
 {
+    protected function getJsonRequestData(Request $request): array
+    {
+        $data = json_decode($request->getContent(), true);
+
+        return is_array($data) ? $data : [];
+    }
+
     protected function jsonValidationErrorResponse(ConstraintViolationListInterface $errors): Response
     {
         $validationErrors = [];

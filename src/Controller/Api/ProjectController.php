@@ -3,8 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\BaseApiAbstractController;
-use App\DTO\Project\Request\CreateProjectRequestDTO;
-use App\DTO\Project\Request\UpdateProjectRequestDTO;
+use App\Mapper\Project\ProjectRequestMapper;
 use App\Mapper\Project\ProjectResponseMapper;
 use App\Service\Project\ProjectService;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,15 +18,13 @@ final class ProjectController extends BaseApiAbstractController
         Request $request,
         ProjectService $projectService,
         ProjectResponseMapper $responseMapper,
+        ProjectRequestMapper $requestMapper,
         ValidatorInterface $validator
     ): Response
     {
-        $data = json_decode($request->getContent(), true) ?? [];
+        $data = $this->getJsonRequestData($request);
 
-        $dto = new CreateProjectRequestDTO();
-        $dto->title = $data['title'] ?? null;
-        $dto->code = $data['code'] ?? null;
-        $dto->description = $data['description'] ?? null;
+        $dto = $requestMapper->mapCreateDto($data);
 
         $errors = $validator->validate($dto);
 
@@ -36,9 +33,8 @@ final class ProjectController extends BaseApiAbstractController
         }
 
         $project = $projectService->createProject($this->getAuthorizedUser());
-        $project->setTitle($dto->title);
-        $project->setCode($dto->code);
-        $project->setDescription($dto->description);
+
+        $projectService->applyCreateRequest($project, $dto);
 
         $projectService->saveProject($project);
 
@@ -51,6 +47,7 @@ final class ProjectController extends BaseApiAbstractController
         string $shortId,
         ProjectService $projectService,
         ProjectResponseMapper $responseMapper,
+        ProjectRequestMapper $requestMapper,
         ValidatorInterface $validator
     ): Response
     {
@@ -60,12 +57,9 @@ final class ProjectController extends BaseApiAbstractController
             return $this->jsonNotFoundResponse('Проект не найден');
         }
 
-        $data = json_decode($request->getContent(), true) ?? [];
+        $data = $this->getJsonRequestData($request);
 
-        $dto = new UpdateProjectRequestDTO();
-        $dto->title = $data['title'] ?? null;
-        $dto->code = $data['code'] ?? null;
-        $dto->description = $data['description'] ?? null;
+        $dto = $requestMapper->mapUpdateDto($data);
 
         $errors = $validator->validate($dto);
 
@@ -73,9 +67,7 @@ final class ProjectController extends BaseApiAbstractController
             return $this->jsonValidationErrorResponse($errors);
         }
 
-        $project->setTitle($dto->title);
-        $project->setCode($dto->code);
-        $project->setDescription($dto->description);
+        $projectService->applyUpdateRequest($project, $dto);
 
         $projectService->saveProject($project);
 

@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\DTO\Model\Request\RenameModelRequestDTO;
+use App\DTO\Model\Request\UpdateTimeParamsRequestDTO;
 use App\Entity\Model;
 use App\Entity\ModelTabData;
 use App\Entity\Project;
@@ -101,7 +103,7 @@ class ModelService
         ];
     }
 
-    public function upsertTimeParamsTabData(Model $model, array $data): void
+    public function upsertTimeParamsTabData(Model $model, UpdateTimeParamsRequestDTO $dto): void
     {
         $tabData = $this->findModelTabDataByKey($model, 'time_params');
 
@@ -112,11 +114,16 @@ class ModelService
         }
 
         $tabData->setPayload([
-            'investment_start_date' => $this->normalizeMonthStartToFirstDay((string) ($data['investmentStartMonth'] ?? '')),
-            'investment_duration_months' => (int) ($data['investmentDurationMonths'] ?? 0),
-            'commercial_operation_duration_months' => (int) ($data['commercialOperationDurationMonths'] ?? 0),
-            'forecast_step' => (string) ($data['forecastStep'] ?? ''),
+            'investment_start_date' => $this->normalizeMonthStartToFirstDay(($dto->investmentStartMonth ?? '')),
+            'investment_duration_months' => $dto->investmentDurationMonths ?? 0,
+            'commercial_operation_duration_months' => $dto->commercialOperationDurationMonths ?? 0,
+            'forecast_step' => $dto->forecastStep ?? '',
         ]);
+    }
+
+    public function applyRenameTitle(Model $model, RenameModelRequestDTO $dto): void
+    {
+        $model->setTitle($dto->title);
     }
 
     private function buildDefaultTitle(Project $project, ?int $versionNumber): string

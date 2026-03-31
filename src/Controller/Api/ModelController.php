@@ -3,8 +3,8 @@
 namespace App\Controller\Api;
 
 use App\Controller\BaseApiAbstractController;
-use App\DTO\Model\Request\RenameModelRequestDTO;
-use App\DTO\Model\Request\UpdateTimeParamsRequestDTO;
+use App\Mapper\Model\RenameModelRequestMapper;
+use App\Mapper\Model\UpdateTimeParamsRequestMapper;
 use App\Service\ModelService;
 use App\Service\Project\ProjectService;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +21,7 @@ final class ModelController extends BaseApiAbstractController
         ProjectService $projectService,
         ModelService $modelService,
         ValidatorInterface $validator,
+        UpdateTimeParamsRequestMapper $updateTimeParamsRequestMapper,
     ): Response {
         $project = $projectService->findUserProjectByShortId($this->getAuthorizedUser(), $projectShortId);
 
@@ -28,13 +29,9 @@ final class ModelController extends BaseApiAbstractController
             return $this->jsonNotFoundResponse('Проект не найден');
         }
 
-        $data = json_decode($request->getContent(), true) ?? [];
+        $data = $this->getJsonRequestData($request);
 
-        $dto = new UpdateTimeParamsRequestDTO();
-        $dto->investmentStartMonth = $data['investmentStartMonth'] ?? null;
-        $dto->investmentDurationMonths = isset($data['investmentDurationMonths']) ? (int) $data['investmentDurationMonths'] : null;
-        $dto->commercialOperationDurationMonths = isset($data['commercialOperationDurationMonths']) ? (int) $data['commercialOperationDurationMonths'] : null;
-        $dto->forecastStep = $data['forecastStep'] ?? null;
+        $dto = $updateTimeParamsRequestMapper->mapCreateDto($data);
 
         $errors = $validator->validate($dto);
 
@@ -44,12 +41,7 @@ final class ModelController extends BaseApiAbstractController
 
         $model = $modelService->createModel($project, $this->getAuthorizedUser());
 
-        $modelService->upsertTimeParamsTabData($model, [
-            'investmentStartMonth' => $dto->investmentStartMonth,
-            'investmentDurationMonths' => $dto->investmentDurationMonths,
-            'commercialOperationDurationMonths' => $dto->commercialOperationDurationMonths,
-            'forecastStep' => $dto->forecastStep,
-        ]);
+        $modelService->upsertTimeParamsTabData($model, $dto);
 
         $modelService->saveModel($model);
 
@@ -67,7 +59,8 @@ final class ModelController extends BaseApiAbstractController
         string $modelShortId,
         ProjectService $projectService,
         ModelService $modelService,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        UpdateTimeParamsRequestMapper $updateTimeParamsRequestMapper,
     ): Response
     {
         $project = $projectService->findUserProjectByShortId($this->getAuthorizedUser(), $projectShortId);
@@ -82,26 +75,16 @@ final class ModelController extends BaseApiAbstractController
             return $this->jsonNotFoundResponse('Модель не найдена');
         }
 
-        $data = json_decode($request->getContent(), true) ?? [];
+        $data = $this->getJsonRequestData($request);
 
-        $dto = new UpdateTimeParamsRequestDTO();
-        $dto->investmentStartMonth = $data['investmentStartMonth'] ?? null;
-        $dto->investmentDurationMonths = isset($data['investmentDurationMonths']) ? (int) $data['investmentDurationMonths'] : null;
-        $dto->commercialOperationDurationMonths = isset($data['commercialOperationDurationMonths']) ? (int) $data['commercialOperationDurationMonths'] : null;
-        $dto->forecastStep = $data['forecastStep'] ?? null;
+        $dto = $updateTimeParamsRequestMapper->mapUpdateDto($data);
 
         $errors = $validator->validate($dto);
-
         if (count($errors) > 0) {
             return $this->jsonValidationErrorResponse($errors);
         }
 
-        $modelService->upsertTimeParamsTabData($model, [
-            'investmentStartMonth' => $dto->investmentStartMonth,
-            'investmentDurationMonths' => $dto->investmentDurationMonths,
-            'commercialOperationDurationMonths' => $dto->commercialOperationDurationMonths,
-            'forecastStep' => $dto->forecastStep,
-        ]);
+        $modelService->upsertTimeParamsTabData($model, $dto);
 
         $modelService->saveModel($model);
 
@@ -116,13 +99,14 @@ final class ModelController extends BaseApiAbstractController
         name: 'api_model_title_update',
         methods: ['PATCH']
     )]
-    public function renameModel(
+    public function updateTitle(
         string $projectShortId,
         string $modelShortId,
         Request $request,
         ProjectService $projectService,
         ModelService $modelService,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        RenameModelRequestMapper $renameMapper,
     ): Response {
         $project = $projectService->findUserProjectByShortId($this->getAuthorizedUser(), $projectShortId);
 
@@ -136,17 +120,16 @@ final class ModelController extends BaseApiAbstractController
             return $this->jsonNotFoundResponse('Модель не найдена');
         }
 
-        $data = json_decode($request->getContent(), true) ?? [];
+        $data = $this->getJsonRequestData($request);
 
-        $dto = new RenameModelRequestDTO();
-        $dto->title = isset($data['title']) ? trim((string) $data['title']) : null;
+        $dto = $renameMapper->mapRenameDto($data);
 
         $errors = $validator->validate($dto);
         if (count($errors) > 0) {
             return $this->jsonValidationErrorResponse($errors);
         }
 
-        $model->setTitle($dto->title);
+        $modelService->applyRenameTitle($model, $dto);
         $modelService->saveModel($model);
 
         return $this->json([

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Page;
 
-
 use App\Controller\BaseAbstractController;
 use App\DTO\Project\ProjectPageDTO;
 use App\Entity\Project;
@@ -130,19 +129,5 @@ final class ProjectPageController extends BaseAbstractController
             'page' => $page,
             'projectView' => $page->projectView,
         ], $extra);
-    }
-
-    /**
-     * @param list<Project> $projects
-     */
-    private function findProjectByShortId(array $projects, string $shortId): ?Project
-    {
-        foreach ($projects as $project) {
-            if ($project->getShortId() === $shortId) {
-                return $project;
-            }
-        }
-
-        return null;
     }
 }
