@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import { storePendingToast } from '../utils/toast.js';
+import { fetchJson } from '../utils/http.js';
 
 export default class extends Controller {
     static targets = ['title', 'code', 'description', 'titleError', 'codeError', 'descriptionError', 'formError'];
@@ -18,22 +19,14 @@ export default class extends Controller {
         }
 
         try {
-            const response = await fetch(this.apiUrlValue, {
+            const { response, data } = await fetchJson(this.apiUrlValue, {
                 method: this.apiMethodValue,
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                 },
-                body: JSON.stringify(this.buildPayload())
-            })
-
-            let data = {}
-
-            try {
-                data = await response.json();
-            } catch (error) {
-                data = {};
-            }
+                body: JSON.stringify(this.buildPayload()),
+            });
 
             if (response.status === 422) {
                 this.applyServerErrors(data.errors ?? {});

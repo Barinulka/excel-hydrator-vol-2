@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import { showToast } from '../utils/toast.js';
+import { fetchJson } from '../utils/http.js';
 
 export default class extends Controller {
     static targets = ['toggle', 'title', 'input', 'submit'];
@@ -41,7 +42,7 @@ export default class extends Controller {
         this.setLoading(true);
 
         try {
-            const response = await fetch(this.apiUrlValue, {
+            const { response, data: payload } = await fetchJson(this.apiUrlValue, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,8 +50,6 @@ export default class extends Controller {
                 },
                 body: JSON.stringify({ title }),
             });
-
-            const payload = await response.json().catch(() => ({}));
 
             if (!response.ok) {
                 const validationMessage = payload?.errors?.title?.[0];
