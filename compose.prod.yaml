@@ -1,0 +1,25 @@
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      CADDY_HOSTS: ${CADDY_HOSTS}
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - public_images_main:/var/www/html/public/images/main:ro
+
+  database:
+    ports: []
+
+  excel-hydrator:
+    ports: []
+
+volumes:
+  caddy_data:
+  caddy_config:

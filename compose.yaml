@@ -1,13 +1,54 @@
-
 services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: nginx
+    depends_on:
+      app:
+        condition: service_started
+    ports:
+      - "${APP_PORT:-8080}:80"
+    restart: unless-stopped
+    volumes:
+      - public_images_main:/var/www/html/public/images/main:ro
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+      args:
+        INSTALL_DEV: "0"
+    depends_on:
+      database:
+        condition: service_healthy
+      excel-hydrator:
+        condition: service_started
+    environment:
+      APP_ENV: ${APP_ENV:-prod}
+      APP_DEBUG: ${APP_DEBUG:-0}
+      APP_SECRET: ${APP_SECRET:-change-me-in-prod}
+      DEFAULT_URI: ${DEFAULT_URI:-http://localhost:${APP_PORT:-8080}}
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-excel-hydrator}:${POSTGRES_PASSWORD:-excel-hydrator}@database:5432/${POSTGRES_DB:-excel-hydrator}?serverVersion=16&charset=utf8"
+      MESSENGER_TRANSPORT_DSN: ${MESSENGER_TRANSPORT_DSN:-doctrine://default?auto_setup=0}
+      MAILER_DSN: ${MAILER_DSN:-null://null}
+      EXCEL_HYDRATOR_URL: http://excel-hydrator:8080
+    restart: unless-stopped
+    volumes:
+      - excel_output:/var/www/html/excel/output
+      - public_images_main:/var/www/html/public/images/main
+
   excel-hydrator:
     build:
       context: ./go/excel-hydrator
-    ports:
-      - "8081:8080"
+    environment:
+      TEMPLATE_DIR: /app/templates
+      OUTPUT_DIR: /app/output
+      PORT: 8080
     volumes:
       - ./excel/templates:/app/templates:ro
-      - ./excel/output:/app/output
+      - excel_output:/app/output
     restart: unless-stopped
 
 ###> doctrine/doctrine-bundle ###
@@ -19,19 +60,17 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-excel-hydrator}
       POSTGRES_USER: ${POSTGRES_USER:-excel-hydrator}
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-test}", "-U", "${POSTGRES_USER:-test}"]
+      test: ["CMD-SHELL", "pg_isready -d \"$${POSTGRES_DB}\" -U \"$${POSTGRES_USER}\""]
       timeout: 5s
       retries: 5
       start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-    ports:
-      - 6101:5432
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+  excel_output:
+  public_images_main:

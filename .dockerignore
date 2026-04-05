@@ -1,0 +1,10 @@
+.git
+.gitignore
+.idea
+var
+vendor
+public/assets
+public/images
+excel/output
+.env.local
+.env.*.local
