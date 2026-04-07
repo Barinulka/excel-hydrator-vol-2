@@ -1,0 +1,30 @@
+<form class="model-form" action="{{ path('front', {slug: 'placeholder'}) }}" method="post">
+    <article class="model-panel capex-panel">
+        <div class="capex-panel__header">
+            <div class="capex-panel__headline">
+                <p class="capex-panel__eyebrow">Новая вкладка модели</p>
+                <h3 class="model-panel__title capex-panel__title">Первоначальные инвестиции</h3>
+                <p class="capex-panel__lead">
+                    Первый фронтовой mockup для блока CAPEX. Здесь пока только структура экрана:
+                    выбор группы затрат, раскрывающиеся категории и состав будущих полей.
+                </p>
+            </div>
+
+            <button class="projects-content__action capex-panel__add-btn" type="button">Добавить</button>
+        </div>
+
+        <div class="capex-panel__notice">
+            <strong>Логика этого шага:</strong>
+            обе группы по умолчанию не активны. Чекбокс включает вложенные категории, после чего их можно раскрывать и наполнять данными.
+        </div>
+
+        <div class="capex-panel__sections">
+            {{ include('@front/blocks/models/forms/capex/_capitalized.html.twig') }}
+            {{ include('@front/blocks/models/forms/capex/_non_capitalized.html.twig') }}
+        </div>
+    </article>
+
+    <div class="project-form__actions">
+        <button class="project-form__submit" type="submit">Сохранить вкладку</button>
+    </div>
+</form>

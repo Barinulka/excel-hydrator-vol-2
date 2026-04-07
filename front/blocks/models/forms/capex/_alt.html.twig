@@ -1,0 +1,264 @@
+<form class="model-form" action="{{ path('front', {slug: 'placeholder'}) }}" method="post">
+    <article class="model-panel capex-v2">
+        <input class="capex-v2__group-radio" id="capex-v2-group-capitalized" name="capex-v2-group" type="radio" checked>
+        <input class="capex-v2__group-radio" id="capex-v2-group-non-capitalized" name="capex-v2-group" type="radio">
+
+        <input class="capex-v2__item-radio" id="capex-v2-item-land" name="capex-v2-item-capitalized" type="radio">
+        <input class="capex-v2__item-radio" id="capex-v2-item-buildings" name="capex-v2-item-capitalized" type="radio" checked>
+        <input class="capex-v2__item-radio" id="capex-v2-item-equipment" name="capex-v2-item-capitalized" type="radio">
+        <input class="capex-v2__item-radio" id="capex-v2-item-furniture" name="capex-v2-item-capitalized" type="radio">
+        <input class="capex-v2__item-radio" id="capex-v2-item-transport" name="capex-v2-item-capitalized" type="radio">
+        <input class="capex-v2__item-radio" id="capex-v2-item-intangibles" name="capex-v2-item-capitalized" type="radio">
+        <input class="capex-v2__item-radio" id="capex-v2-item-leasehold" name="capex-v2-item-capitalized" type="radio">
+        <input class="capex-v2__item-radio" id="capex-v2-item-other-capitalized" name="capex-v2-item-capitalized" type="radio">
+
+        <input class="capex-v2__item-radio" id="capex-v2-item-stock" name="capex-v2-item-non-capitalized" type="radio" checked>
+        <input class="capex-v2__item-radio" id="capex-v2-item-marketing" name="capex-v2-item-non-capitalized" type="radio">
+        <input class="capex-v2__item-radio" id="capex-v2-item-other-non-capitalized" name="capex-v2-item-non-capitalized" type="radio">
+
+        <div class="capex-v2__header">
+            <div class="capex-v2__headline">
+                <p class="capex-v2__eyebrow">Сравнительный вариант</p>
+                <h3 class="model-panel__title capex-v2__title">Инвестиции как каталог и рабочая область</h3>
+                <p class="capex-v2__lead">
+                    Мой вариант UI: не раскрывать сразу все секции, а сначала выбирать группу затрат,
+                    потом категорию слева, а справа показывать состав полей только для выбранного сценария.
+                </p>
+            </div>
+        </div>
+
+        <div class="capex-v2__toolbar">
+            <label class="capex-v2__group-tab" for="capex-v2-group-capitalized">Капитализируемые затраты</label>
+            <label class="capex-v2__group-tab" for="capex-v2-group-non-capitalized">Не капитализируемые затраты</label>
+        </div>
+
+        <div class="capex-v2__workspace">
+            <aside class="capex-v2__catalog">
+                <div class="capex-v2__catalog-head">
+                    <h4 class="capex-v2__catalog-title">Категории</h4>
+                    <p class="capex-v2__catalog-text">
+                        Здесь пользователь выбирает тип инвестиции, а не скроллит длинную форму целиком.
+                    </p>
+                </div>
+
+                <div class="capex-v2__catalog-group capex-v2__catalog-group--capitalized">
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-land">
+                        <span class="capex-v2__catalog-item-title">Земельный участок</span>
+                        <span class="capex-v2__catalog-item-meta">CAPEX</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-buildings">
+                        <span class="capex-v2__catalog-item-title">Здания и сооружения</span>
+                        <span class="capex-v2__catalog-item-meta">CAPEX_амортизация</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-equipment">
+                        <span class="capex-v2__catalog-item-title">Оборудование и приборы</span>
+                        <span class="capex-v2__catalog-item-meta">CAPEX_амортизация</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-furniture">
+                        <span class="capex-v2__catalog-item-title">Мебель и оргтехника</span>
+                        <span class="capex-v2__catalog-item-meta">CAPEX_амортизация</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-transport">
+                        <span class="capex-v2__catalog-item-title">Транспортные средства</span>
+                        <span class="capex-v2__catalog-item-meta">CAPEX_амортизация</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-intangibles">
+                        <span class="capex-v2__catalog-item-title">НМА и ПО</span>
+                        <span class="capex-v2__catalog-item-meta">CAPEX_амортизация</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-leasehold">
+                        <span class="capex-v2__catalog-item-title">Неотделимые улучшения</span>
+                        <span class="capex-v2__catalog-item-meta">Арендованное имущество</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-other-capitalized">
+                        <span class="capex-v2__catalog-item-title">Другое</span>
+                        <span class="capex-v2__catalog-item-meta">Пользовательская категория</span>
+                    </label>
+                </div>
+
+                <div class="capex-v2__catalog-group capex-v2__catalog-group--non-capitalized">
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-stock">
+                        <span class="capex-v2__catalog-item-title">Первоначальные запасы</span>
+                        <span class="capex-v2__catalog-item-meta">OPEX_ОК</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-marketing">
+                        <span class="capex-v2__catalog-item-title">Маркетинг, обучение и реклама</span>
+                        <span class="capex-v2__catalog-item-meta">OPEX_расходы будущих периодов</span>
+                    </label>
+                    <label class="capex-v2__catalog-item" for="capex-v2-item-other-non-capitalized">
+                        <span class="capex-v2__catalog-item-title">Другое</span>
+                        <span class="capex-v2__catalog-item-meta">OPEX_расходы будущих периодов</span>
+                    </label>
+                </div>
+            </aside>
+
+            <section class="capex-v2__detail">
+                <div class="capex-v2__detail-group capex-v2__detail-group--capitalized">
+                    <section class="capex-v2__detail-card capex-v2__detail-card--land">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX</p>
+                            <h4 class="capex-v2__detail-title">Земельный участок</h4>
+                            <p class="capex-v2__detail-text">Минимальная карточка, без лишних переключателей. Логика полей компактно видна справа и не расползается по экрану.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">Земельный налог</span>
+                            <span class="capex-chip">Кадастровая стоимость участка</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--buildings">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX_амортизация</p>
+                            <h4 class="capex-v2__detail-title">Здания и сооружения</h4>
+                            <p class="capex-v2__detail-text">Для сложных категорий справа проще показывать зависимые поля: налог на имущество, базу расчета, кадастровую стоимость и срок полезного использования.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Налог на имущество</span>
+                            <span class="capex-chip">База: кадастровая / среднегодовая</span>
+                            <span class="capex-chip">Кадастровая стоимость</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--equipment">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX_амортизация</p>
+                            <h4 class="capex-v2__detail-title">Оборудование и приборы</h4>
+                            <p class="capex-v2__detail-text">Типовой амортизируемый актив. Здесь важна компактность, потому что таких позиций обычно будет много.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Налог на имущество</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--furniture">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX_амортизация</p>
+                            <h4 class="capex-v2__detail-title">Мебель и оргтехника</h4>
+                            <p class="capex-v2__detail-text">Еще один короткий сценарий. Здесь UI не должен выглядеть таким же тяжелым, как для зданий.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--transport">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX_амортизация</p>
+                            <h4 class="capex-v2__detail-title">Транспортные средства</h4>
+                            <p class="capex-v2__detail-text">Отдельная логика налогообложения и мощности. В каталожном интерфейсе это не мешает остальным типам активов.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Транспортный налог</span>
+                            <span class="capex-chip">Мощность, л.с.</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--intangibles">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX_амортизация</p>
+                            <h4 class="capex-v2__detail-title">Нематериальные активы и ПО</h4>
+                            <p class="capex-v2__detail-text">НМА не требуют такого же нагруженного интерфейса, как недвижимость. Поэтому отдельная карточка справа здесь читается лучше.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--leasehold">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX_амортизация</p>
+                            <h4 class="capex-v2__detail-title">Неотделимые улучшения арендованного имущества</h4>
+                            <p class="capex-v2__detail-text">Редкий, но сложный кейс. Такой сценарий лучше держать в собственной карточке, а не в длинной общей форме.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Расходы на ремонт</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок договора аренды</span>
+                            <span class="capex-chip">Налог на имущество</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--other-capitalized">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">CAPEX / CAPEX_амортизация</p>
+                            <h4 class="capex-v2__detail-title">Другое</h4>
+                            <p class="capex-v2__detail-text">Для произвольных категорий я бы не раскрывал сразу много логики. Сначала базовые поля и отдельный флаг амортизации.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Амортизируется / не амортизируется</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="capex-v2__detail-group capex-v2__detail-group--non-capitalized">
+                    <section class="capex-v2__detail-card capex-v2__detail-card--stock">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">OPEX_ОК</p>
+                            <h4 class="capex-v2__detail-title">Первоначальные запасы</h4>
+                            <p class="capex-v2__detail-text">Для не капитализируемых затрат я бы оставил такой же принцип: список категорий слева и спокойная форма без аккордеонов справа.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--marketing">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">OPEX_расходы будущих периодов</p>
+                            <h4 class="capex-v2__detail-title">Маркетинг, обучение и реклама</h4>
+                            <p class="capex-v2__detail-text">Здесь уже появляется срок списания. В правой карточке это видно сразу, без раскрытия лишних уровней.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок списания расходов будущих периодов</span>
+                        </div>
+                    </section>
+
+                    <section class="capex-v2__detail-card capex-v2__detail-card--other-non-capitalized">
+                        <div class="capex-v2__detail-head">
+                            <p class="capex-v2__detail-key">OPEX_расходы будущих периодов</p>
+                            <h4 class="capex-v2__detail-title">Другое</h4>
+                            <p class="capex-v2__detail-text">Категория под пользовательские случаи. Здесь удобно будет потом показать кастомное название и краткое описание статьи.</p>
+                        </div>
+                        <div class="capex-v2__detail-fields">
+                            <span class="capex-chip">Наименование статьи</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок списания расходов будущих периодов</span>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </article>
+
+    <div class="project-form__actions">
+        <button class="project-form__submit" type="submit">Сохранить вкладку</button>
+    </div>
+</form>

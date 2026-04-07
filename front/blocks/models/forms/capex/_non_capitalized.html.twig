@@ -1,0 +1,69 @@
+<section class="capex-section">
+    <input class="capex-section__checkbox" id="front-capex-non-capitalized" type="checkbox">
+
+    <div class="capex-section__shell">
+        <div class="capex-section__header">
+            <label class="capex-section__toggle" for="front-capex-non-capitalized">
+                <span class="capex-section__toggle-box" aria-hidden="true"></span>
+                <span>
+                    <span class="capex-section__title">Не капитализируемые затраты</span>
+                    <span class="capex-section__meta">3 категории, стартовые затраты и расходы будущих периодов</span>
+                </span>
+            </label>
+
+            <span class="capex-section__badge">Пока только структура</span>
+        </div>
+
+        <div class="capex-section__body">
+            <p class="capex-section__lead">
+                Этот блок покрывает первоначальные запасы, маркетинговые и прочие запусковые расходы. Дальше сюда добавим реальные поля и правила списания.
+            </p>
+
+            <div class="capex-accordion-list">
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Первоначальные запасы</span>
+                        <span class="capex-accordion__meta">Ключ: OPEX_ОК</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Расходы на рекламу, маркетинг, обучение и др.</span>
+                        <span class="capex-accordion__meta">Ключ: OPEX_расходы будущих периодов</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок списания расходов будущих периодов</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Другое</span>
+                        <span class="capex-accordion__meta">Ключ: OPEX_расходы будущих периодов</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок списания расходов будущих периодов</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</section>

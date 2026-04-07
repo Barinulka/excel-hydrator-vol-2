@@ -812,6 +812,651 @@
     color: #234061;
 }
 
+.capex-panel {
+    display: grid;
+    gap: 18px;
+}
+
+.capex-panel__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.capex-panel__headline {
+    display: grid;
+    gap: 6px;
+}
+
+.capex-panel__eyebrow {
+    margin: 0;
+    color: #5a7190;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.capex-panel__title {
+    margin-bottom: 0;
+}
+
+.capex-panel__lead {
+    margin: 0;
+    max-width: 880px;
+    color: #526884;
+    line-height: 1.5;
+}
+
+.capex-panel__add-btn {
+    white-space: nowrap;
+}
+
+.capex-panel__notice {
+    padding: 14px 16px;
+    border: 1px solid #d8e5f2;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8fbff 0%, #eef5ff 100%);
+    color: #355172;
+    line-height: 1.5;
+}
+
+.capex-panel__sections {
+    display: grid;
+    gap: 14px;
+}
+
+.capex-section {
+    position: relative;
+}
+
+.capex-section__checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.capex-section__shell {
+    border: 1px solid #dbe4ef;
+    border-radius: 14px;
+    background: #fbfdff;
+    overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+.capex-section__checkbox:checked + .capex-section__shell {
+    border-color: #85b0e6;
+    background: #ffffff;
+    box-shadow: 0 14px 30px rgba(28, 59, 100, 0.08);
+}
+
+.capex-section__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #e4edf6;
+}
+
+.capex-section__toggle {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.capex-section__toggle-box {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #9cb6d3;
+    border-radius: 7px;
+    background: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    flex: 0 0 auto;
+    margin-top: 1px;
+}
+
+.capex-section__checkbox:checked + .capex-section__shell .capex-section__toggle-box {
+    border-color: #2d5bba;
+    background: #2d5bba;
+}
+
+.capex-section__checkbox:checked + .capex-section__shell .capex-section__toggle-box::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    width: 4px;
+    height: 8px;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: rotate(45deg);
+}
+
+.capex-section__title {
+    display: block;
+    color: #18314f;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.capex-section__meta {
+    display: block;
+    margin-top: 4px;
+    color: #5d7490;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.capex-section__badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: #edf3fb;
+    color: #4d6786;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.capex-section__body {
+    display: grid;
+    gap: 12px;
+    padding: 16px 18px 18px;
+    opacity: .58;
+    pointer-events: none;
+    filter: grayscale(.15);
+    transition: opacity .15s ease, filter .15s ease;
+}
+
+.capex-section__checkbox:checked + .capex-section__shell .capex-section__body {
+    opacity: 1;
+    pointer-events: auto;
+    filter: none;
+}
+
+.capex-section__lead {
+    margin: 0;
+    color: #526884;
+    line-height: 1.5;
+}
+
+.capex-accordion-list {
+    display: grid;
+    gap: 10px;
+}
+
+.capex-accordion {
+    border: 1px solid #dbe4ef;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.capex-accordion[open] {
+    border-color: #a9c6ea;
+    box-shadow: 0 10px 24px rgba(30, 63, 104, 0.06);
+}
+
+.capex-accordion__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.capex-accordion__summary::-webkit-details-marker {
+    display: none;
+}
+
+.capex-accordion__summary::after {
+    content: "^";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: #eef5ff;
+    color: #25497e;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1;
+    flex: 0 0 auto;
+    transform: rotate(180deg);
+    transition: transform .15s ease, background-color .15s ease;
+}
+
+.capex-accordion[open] .capex-accordion__summary::after {
+    transform: rotate(0deg);
+}
+
+.capex-accordion__title {
+    color: #18314f;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.capex-accordion__meta {
+    color: #607792;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: right;
+}
+
+.capex-accordion__content {
+    display: grid;
+    gap: 12px;
+    padding: 0 16px 16px;
+    border-top: 1px solid #edf2f8;
+}
+
+.capex-accordion__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 14px;
+}
+
+.capex-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 10px;
+    border: 1px solid #dbe4ef;
+    border-radius: 999px;
+    background: #f7fbff;
+    color: #34516f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.capex-accordion__add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px dashed #8fb5e6;
+    border-radius: 10px;
+    background: #f4f8ff;
+    color: #244b97;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+.capex-accordion__add-btn:hover {
+    transform: translateY(-1px);
+    border-color: #6f9cd8;
+    background: #eaf2ff;
+}
+
+.capex-v2 {
+    display: grid;
+    gap: 18px;
+}
+
+.capex-v2__group-radio,
+.capex-v2__item-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.capex-v2__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.capex-v2__headline {
+    display: grid;
+    gap: 6px;
+    max-width: 860px;
+}
+
+.capex-v2__eyebrow {
+    margin: 0;
+    color: #5a7190;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.capex-v2__title {
+    margin-bottom: 0;
+}
+
+.capex-v2__lead {
+    margin: 0;
+    color: #526884;
+    line-height: 1.5;
+}
+
+.capex-v2__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.capex-v2__group-tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid #dbe4ef;
+    border-radius: 12px;
+    background: #f7fbff;
+    color: #355172;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease, transform .15s ease;
+}
+
+.capex-v2__group-tab:hover {
+    transform: translateY(-1px);
+    border-color: #8fb5e6;
+    background: #edf4ff;
+}
+
+#capex-v2-group-capitalized:checked ~ .capex-v2__toolbar .capex-v2__group-tab[for="capex-v2-group-capitalized"],
+#capex-v2-group-non-capitalized:checked ~ .capex-v2__toolbar .capex-v2__group-tab[for="capex-v2-group-non-capitalized"] {
+    border-color: #85b0e6;
+    background: #eef5ff;
+    color: #1f3f66;
+}
+
+.capex-v2__workspace {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+}
+
+.capex-v2__catalog,
+.capex-v2__detail {
+    border: 1px solid #dbe4ef;
+    border-radius: 14px;
+    background: #fbfdff;
+    min-height: 100%;
+}
+
+.capex-v2__catalog {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.capex-v2__catalog-head {
+    display: grid;
+    gap: 6px;
+}
+
+.capex-v2__catalog-title {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #18314f;
+}
+
+.capex-v2__catalog-text {
+    margin: 0;
+    color: #5b7190;
+    line-height: 1.5;
+}
+
+.capex-v2__catalog-group {
+    display: none;
+}
+
+.capex-v2__catalog-group {
+    gap: 8px;
+}
+
+#capex-v2-group-capitalized:checked ~ .capex-v2__workspace .capex-v2__catalog-group--capitalized,
+#capex-v2-group-non-capitalized:checked ~ .capex-v2__workspace .capex-v2__catalog-group--non-capitalized {
+    display: grid;
+}
+
+.capex-v2__catalog-item {
+    display: grid;
+    gap: 3px;
+    padding: 12px 14px;
+    border: 1px solid #dbe4ef;
+    border-radius: 12px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.capex-v2__catalog-item:hover {
+    transform: translateY(-1px);
+    border-color: #9abde8;
+    box-shadow: 0 10px 18px rgba(16, 36, 63, 0.06);
+}
+
+.capex-v2__catalog-item-title {
+    color: #18314f;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.capex-v2__catalog-item-meta {
+    color: #607792;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+#capex-v2-item-land:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-land"],
+#capex-v2-item-buildings:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-buildings"],
+#capex-v2-item-equipment:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-equipment"],
+#capex-v2-item-furniture:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-furniture"],
+#capex-v2-item-transport:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-transport"],
+#capex-v2-item-intangibles:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-intangibles"],
+#capex-v2-item-leasehold:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-leasehold"],
+#capex-v2-item-other-capitalized:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-other-capitalized"],
+#capex-v2-item-stock:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-stock"],
+#capex-v2-item-marketing:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-marketing"],
+#capex-v2-item-other-non-capitalized:checked ~ .capex-v2__workspace .capex-v2__catalog-item[for="capex-v2-item-other-non-capitalized"] {
+    border-color: #85b0e6;
+    background: #eef5ff;
+    box-shadow: 0 10px 18px rgba(16, 36, 63, 0.08);
+}
+
+.capex-v2__detail {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.capex-v2__detail-group,
+.capex-v2__detail-card {
+    display: none;
+}
+
+#capex-v2-group-capitalized:checked ~ .capex-v2__workspace .capex-v2__detail-group--capitalized,
+#capex-v2-group-non-capitalized:checked ~ .capex-v2__workspace .capex-v2__detail-group--non-capitalized {
+    display: block;
+}
+
+#capex-v2-item-land:checked ~ .capex-v2__workspace .capex-v2__detail-card--land,
+#capex-v2-item-buildings:checked ~ .capex-v2__workspace .capex-v2__detail-card--buildings,
+#capex-v2-item-equipment:checked ~ .capex-v2__workspace .capex-v2__detail-card--equipment,
+#capex-v2-item-furniture:checked ~ .capex-v2__workspace .capex-v2__detail-card--furniture,
+#capex-v2-item-transport:checked ~ .capex-v2__workspace .capex-v2__detail-card--transport,
+#capex-v2-item-intangibles:checked ~ .capex-v2__workspace .capex-v2__detail-card--intangibles,
+#capex-v2-item-leasehold:checked ~ .capex-v2__workspace .capex-v2__detail-card--leasehold,
+#capex-v2-item-other-capitalized:checked ~ .capex-v2__workspace .capex-v2__detail-card--other-capitalized,
+#capex-v2-item-stock:checked ~ .capex-v2__workspace .capex-v2__detail-card--stock,
+#capex-v2-item-marketing:checked ~ .capex-v2__workspace .capex-v2__detail-card--marketing,
+#capex-v2-item-other-non-capitalized:checked ~ .capex-v2__workspace .capex-v2__detail-card--other-non-capitalized {
+    display: grid;
+    gap: 14px;
+}
+
+.capex-v2__detail-head {
+    display: grid;
+    gap: 6px;
+}
+
+.capex-v2__detail-key {
+    margin: 0;
+    color: #5a7190;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.capex-v2__detail-title {
+    margin: 0;
+    color: #18314f;
+    font-size: 22px;
+    line-height: 1.2;
+}
+
+.capex-v2__detail-text {
+    margin: 0;
+    color: #526884;
+    line-height: 1.55;
+    max-width: 760px;
+}
+
+.capex-v2__detail-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.capex-v3 {
+    display: grid;
+    gap: 18px;
+}
+
+.capex-v3__group-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.capex-v3__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.capex-v3__headline {
+    display: grid;
+    gap: 6px;
+    max-width: 920px;
+}
+
+.capex-v3__eyebrow {
+    margin: 0;
+    color: #5a7190;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.capex-v3__title {
+    margin-bottom: 0;
+}
+
+.capex-v3__lead {
+    margin: 0;
+    color: #526884;
+    line-height: 1.5;
+}
+
+.capex-v3__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.capex-v3__group-tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid #dbe4ef;
+    border-radius: 12px;
+    background: #f7fbff;
+    color: #355172;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease, transform .15s ease;
+}
+
+.capex-v3__group-tab:hover {
+    transform: translateY(-1px);
+    border-color: #8fb5e6;
+    background: #edf4ff;
+}
+
+#capex-v3-group-capitalized:checked ~ .capex-v3__toolbar .capex-v3__group-tab[for="capex-v3-group-capitalized"],
+#capex-v3-group-non-capitalized:checked ~ .capex-v3__toolbar .capex-v3__group-tab[for="capex-v3-group-non-capitalized"] {
+    border-color: #85b0e6;
+    background: #eef5ff;
+    color: #1f3f66;
+}
+
+.capex-v3__content {
+    border: 1px solid #dbe4ef;
+    border-radius: 14px;
+    background: #fbfdff;
+    padding: 16px;
+    display: grid;
+    gap: 14px;
+}
+
+.capex-v3__group {
+    display: none;
+    gap: 10px;
+}
+
+#capex-v3-group-capitalized:checked ~ .capex-v3__content .capex-v3__group--capitalized,
+#capex-v3-group-non-capitalized:checked ~ .capex-v3__content .capex-v3__group--non-capitalized {
+    display: grid;
+}
+
+.capex-v3__group-head {
+    display: grid;
+    gap: 6px;
+}
+
+.capex-v3__group-title {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #18314f;
+}
+
+.capex-v3__group-text {
+    margin: 0;
+    color: #5b7190;
+    line-height: 1.5;
+}
+
 @media (max-width: 1220px) {
     .projects-content__toolbar {
         flex-wrap: wrap;
@@ -842,6 +1487,27 @@
     .model-fields,
     .model-fields--three {
         grid-template-columns: 1fr;
+    }
+
+    .capex-panel__header,
+    .capex-section__header,
+    .capex-accordion__summary {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .capex-accordion__meta {
+        text-align: left;
+    }
+
+    .capex-v2__header,
+    .capex-v2__workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .capex-v3__header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
@@ -892,6 +1558,29 @@
 
     .projects-placeholder__text {
         font-size: 16px;
+    }
+
+    .capex-panel__add-btn,
+    .capex-accordion__add-btn {
+        width: 100%;
+    }
+
+    .capex-v2__toolbar {
+        flex-direction: column;
+    }
+
+    .capex-v2__group-tab {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .capex-v3__toolbar {
+        flex-direction: column;
+    }
+
+    .capex-v3__group-tab {
+        width: 100%;
+        justify-content: center;
     }
 }
 

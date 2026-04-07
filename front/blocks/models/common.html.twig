@@ -22,6 +22,36 @@
                                     <span class="projects-sidebar__meta">Период и шаг</span>
                                 </a>
                             </div>
+                            <div class="projects-sidebar__row {% if modelTab == 'capex' %}projects-sidebar__row--active{% endif %}">
+                                <a
+                                    class="projects-sidebar__item {% if modelTab == 'capex' %}projects-sidebar__item--active{% endif %}"
+                                    href="{{ path('front', {slug: 'model-capex'}) }}"
+                                    data-turbo-frame="model_content"
+                                >
+                                    <span class="projects-sidebar__name">Инвестиции</span>
+                                    <span class="projects-sidebar__meta">CAPEX и РБП</span>
+                                </a>
+                            </div>
+                            <div class="projects-sidebar__row {% if modelTab == 'capex_alt' %}projects-sidebar__row--active{% endif %}">
+                                <a
+                                    class="projects-sidebar__item {% if modelTab == 'capex_alt' %}projects-sidebar__item--active{% endif %}"
+                                    href="{{ path('front', {slug: 'model-capex-alt'}) }}"
+                                    data-turbo-frame="model_content"
+                                >
+                                    <span class="projects-sidebar__name">Инвестиции · v2</span>
+                                    <span class="projects-sidebar__meta">Сравнение UI</span>
+                                </a>
+                            </div>
+                            <div class="projects-sidebar__row {% if modelTab == 'capex_hybrid' %}projects-sidebar__row--active{% endif %}">
+                                <a
+                                    class="projects-sidebar__item {% if modelTab == 'capex_hybrid' %}projects-sidebar__item--active{% endif %}"
+                                    href="{{ path('front', {slug: 'model-capex-hybrid'}) }}"
+                                    data-turbo-frame="model_content"
+                                >
+                                    <span class="projects-sidebar__name">Инвестиции · v3</span>
+                                    <span class="projects-sidebar__meta">Гибридный UI</span>
+                                </a>
+                            </div>
                             <div class="projects-sidebar__row {% if modelTab == 'ebitda' %}projects-sidebar__row--active{% endif %}">
                                 <a
                                     class="projects-sidebar__item {% if modelTab == 'ebitda' %}projects-sidebar__item--active{% endif %}"
@@ -71,7 +101,13 @@
                             </div>
                         </div>
 
-                        {% if modelTab == 'ebitda' %}
+                        {% if modelTab == 'capex' %}
+                            {{ include('@front/blocks/models/forms/capex/_index.html.twig') }}
+                        {% elseif modelTab == 'capex_alt' %}
+                            {{ include('@front/blocks/models/forms/capex/_alt.html.twig') }}
+                        {% elseif modelTab == 'capex_hybrid' %}
+                            {{ include('@front/blocks/models/forms/capex/_hybrid.html.twig') }}
+                        {% elseif modelTab == 'ebitda' %}
                             {{ include('@front/blocks/models/forms/_ebitda.html.twig') }}
                         {% elseif modelTab == 'salary' %}
                             {{ include('@front/blocks/models/forms/_salary.html.twig') }}

@@ -1,0 +1,158 @@
+<section class="capex-section">
+    <input class="capex-section__checkbox" id="front-capex-capitalized" type="checkbox">
+
+    <div class="capex-section__shell">
+        <div class="capex-section__header">
+            <label class="capex-section__toggle" for="front-capex-capitalized">
+                <span class="capex-section__toggle-box" aria-hidden="true"></span>
+                <span>
+                    <span class="capex-section__title">Капитализируемые затраты</span>
+                    <span class="capex-section__meta">8 категорий верхнего уровня, активы и амортизация</span>
+                </span>
+            </label>
+
+            <span class="capex-section__badge">Нужен флаг для активации</span>
+        </div>
+
+        <div class="capex-section__body">
+            <p class="capex-section__lead">
+                Внутри блока будут категории основных средств, НМА и прочих капитализируемых вложений. На следующем этапе сюда добавим реальные поля и создание подуровней.
+            </p>
+
+            <div class="capex-accordion-list">
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Земельный участок</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">Земельный налог</span>
+                            <span class="capex-chip">Кадастровая стоимость</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Здания и сооружения</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX_амортизация</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Налог на имущество</span>
+                            <span class="capex-chip">База налога</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Оборудование и приборы</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX_амортизация</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Налог на имущество</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Мебель, оргтехника, офисное оборудование</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX_амортизация</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Транспортные средства</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX_амортизация</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Транспортный налог</span>
+                            <span class="capex-chip">Мощность, л.с.</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Нематериальные активы и ПО</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX_амортизация</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Наименование объекта</span>
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Неотделимые улучшения арендованного имущества</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX_амортизация</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Ремонт арендованных средств</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Срок договора аренды</span>
+                            <span class="capex-chip">Налог на имущество</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+
+                <details class="capex-accordion">
+                    <summary class="capex-accordion__summary">
+                        <span class="capex-accordion__title">Другое</span>
+                        <span class="capex-accordion__meta">Ключ: CAPEX_амортизация, если включена амортизация</span>
+                    </summary>
+                    <div class="capex-accordion__content">
+                        <div class="capex-accordion__chips">
+                            <span class="capex-chip">Первоначальная стоимость</span>
+                            <span class="capex-chip">НДС</span>
+                            <span class="capex-chip">Амортизируется / не амортизируется</span>
+                            <span class="capex-chip">Срок полезного использования</span>
+                        </div>
+                        <button class="capex-accordion__add-btn" type="button">+ Подуровень</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</section>
