@@ -58,6 +58,9 @@ class Model
     #[Assert\Positive(message: 'Номер версии должен быть больше нуля.')]
     private ?int $versionNumber = 1;
 
+    #[ORM\OneToOne(targetEntity: ModelTimeParams::class, mappedBy: 'model', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private ?ModelTimeParams $timeParams = null;
+
     public function __construct()
     {
         $this->modelTabData = new ArrayCollection();
@@ -172,5 +175,27 @@ class Model
     public function getVersionLabel(): string
     {
         return sprintf('v%d', $this->versionNumber ?? 1);
+    }
+
+    public function getTimeParams(): ?ModelTimeParams
+    {
+        return $this->timeParams;
+    }
+
+    public function setTimeParams(?ModelTimeParams $timeParams): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($timeParams === null && $this->timeParams !== null) {
+            $this->timeParams->setModel(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($timeParams !== null && $timeParams->getModel() !== $this) {
+            $timeParams->setModel($this);
+        }
+
+        $this->timeParams = $timeParams;
+
+        return $this;
     }
 }
