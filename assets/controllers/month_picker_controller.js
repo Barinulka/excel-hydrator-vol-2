@@ -3,8 +3,10 @@ import flatpickr from 'flatpickr';
 import monthSelectPlugin from 'flatpickr/dist/plugins/monthSelect/index.js';
 
 export default class extends Controller {
+    static targets = ['input'];
+
     connect() {
-        this.picker = flatpickr(this.element, {
+        this.picker = flatpickr(this.inputTarget, {
             plugins: [
                 new monthSelectPlugin({
                     shorthand: true,
@@ -16,8 +18,10 @@ export default class extends Controller {
             dateFormat: 'Y-m',
             allowInput: true,
             disableMobile: true,
+            static: true,
         });
     }
+
 
     disconnect() {
         if (this.picker) {

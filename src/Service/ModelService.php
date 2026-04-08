@@ -126,6 +126,19 @@ class ModelService
         $model->setTitle($dto->title);
     }
 
+    public function getCapexFormData(Model $model): array
+    {
+        $tabData = $this->findModelTabDataByKey($model, 'capex');
+
+        if (null === $tabData) {
+            return [];
+        }
+
+        $payload = $tabData->getPayload();
+
+        return $payload;
+    }
+
     private function buildDefaultTitle(Project $project, ?int $versionNumber): string
     {
         $safeVersion = $versionNumber ?? 1;

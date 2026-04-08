@@ -9,19 +9,22 @@
         </p>
     </article>
 
-    <div class="projects-empty">
+    <div class="projects-empty" data-controller="project-model-create-dialog">
         <h3 class="projects-empty__title">{{ selectedProject.hasModels ? 'Добавить модель' : 'Создать модель' }}</h3>
         <p class="projects-empty__text">
             {{ selectedProject.hasModels ? 'В проекте уже есть модели. Можно создать еще одну версию.' : 'У выбранного проекта пока нет добавленных моделей.' }}
         </p>
-        <a
+        <button
             class="projects-empty__btn"
-            href="{{ selectedProject.shortId ? path('app_model_create', { projectShortId: selectedProject.shortId }) : '#' }}"
-            data-turbo-frame="_top"
-            {% if not selectedProject.shortId %}aria-disabled="true"{% endif %}
+            type="button"
+            data-action="project-model-create-dialog#open"
+            {% if not modelCreateApiUrl %}disabled{% endif %}
         >
             Создать модель
-        </a>
+        </button>
+
+        {#  попап создания модели  #}
+        {{ include('project/blocks/_model_create_modal.html.twig') }}
     </div>
 
     {% if selectedProject.hasModels and selectedProject.modelStubs|default([]) %}

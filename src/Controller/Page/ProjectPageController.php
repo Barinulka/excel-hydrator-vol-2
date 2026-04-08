@@ -6,6 +6,7 @@ use App\Controller\BaseAbstractController;
 use App\DTO\Project\ProjectPageDTO;
 use App\Entity\Project;
 use App\Form\ProjectType;
+use App\Service\ModelService;
 use App\Service\Project\ProjectPageBuilder;
 use App\Service\Project\ProjectService;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,13 +19,23 @@ final class ProjectPageController extends BaseAbstractController
     public function index(
         Request $request,
         ProjectService $service,
+        ModelService $modelService,
         ProjectPageBuilder $projectPageBuilder,
     ): Response
     {
         $projects = $service->getUserProjects($this->getAuthorizedUser());
         $page = $projectPageBuilder->build($projects);
+        $selectedProject = $page->selectedProject;
 
-        return $this->renderProjectPage($request, $this->buildRenderContext($page));
+        return $this->renderProjectPage($request, $this->buildRenderContext($page, [
+            'modelCreateTimeParams' => $modelService->getDefaultTimeParamsFormData(),
+            'modelCreateApiUrl' => null !== $selectedProject
+                ? $this->generateUrl('api_model_create', [
+                    'projectShortId' => $selectedProject->shortId,
+                ])
+                : '',
+            'modelCreateApiMethod' => 'POST',
+        ]));
     }
 
     #[Route('/project/{shortId<[A-Za-z0-9]{10}>}', name: 'app_project_show', methods: ['GET'])]
@@ -32,6 +43,7 @@ final class ProjectPageController extends BaseAbstractController
         Request $request,
         string $shortId,
         ProjectService $service,
+        ModelService $modelService,
         ProjectPageBuilder $projectPageBuilder,
     ): Response
     {
@@ -45,7 +57,13 @@ final class ProjectPageController extends BaseAbstractController
 
         $page = $projectPageBuilder->build($projects, $selectedProject);
 
-        return $this->renderProjectPage($request, $this->buildRenderContext($page));
+        return $this->renderProjectPage($request, $this->buildRenderContext($page, [
+            'modelCreateTimeParams' => $modelService->getDefaultTimeParamsFormData(),
+            'modelCreateApiUrl' =>  $this->generateUrl('api_model_create', [
+                'projectShortId' => $shortId,
+            ]),
+            'modelCreateApiMethod' => 'POST',
+        ]));
     }
 
     #[Route('/project/create', name: 'app_project_create', methods: ['GET'])]

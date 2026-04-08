@@ -4,17 +4,20 @@
     <div class="project-form__client-error" data-model-time-params-form-target="formError"></div>
 
     <div class="model-fields">
-        <label class="model-field">
+        <label class="model-field" >
             <span class="model-field__label">Дата начала инвестиций</span>
-            <input
-                type="month"
-                name="investmentStartMonth"
-                value="{{ timeParams.investmentStartMonth|default('') }}"
-                class="project-form__input"
-                data-controller="month-picker"
-                data-model-time-params-form-target="investmentStartMonth"
-                autocomplete="off"
-            >
+            <div data-controller="month-picker">
+                <input
+                    type="text"
+                    placeholder="YYYY-MM"
+                    name="investmentStartMonth"
+                    value="{{ timeParams.investmentStartMonth|default('') }}"
+                    class="project-form__input"
+                    data-month-picker-target="input"
+                    data-model-time-params-form-target="investmentStartMonth"
+                    autocomplete="off"
+                >
+            </div>
             <span class="project-form__client-error" data-model-time-params-form-target="investmentStartMonthError"></span>
         </label>
 
@@ -29,6 +32,7 @@
                 step="1"
                 class="project-form__input"
                 data-model-time-params-form-target="investmentDurationMonths"
+                autofocus
             >
             <span class="project-form__client-error" data-model-time-params-form-target="investmentDurationMonthsError"></span>
         </label>

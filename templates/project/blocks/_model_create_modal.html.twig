@@ -1,0 +1,40 @@
+<dialog
+    class="project-model-create-dialog"
+    data-project-model-create-dialog-target="dialog"
+    data-action="click->project-model-create-dialog#backdropClick"
+>
+    <form
+        class="project-model-create-dialog__form"
+        data-controller="model-time-params-form"
+        data-action="submit->model-time-params-form#submitForm"
+        data-model-time-params-form-api-url-value="{{ modelCreateApiUrl|default('') }}"
+        data-model-time-params-form-api-method-value="{{ modelCreateApiMethod|default('POST') }}"
+    >
+        <div class="project-model-create-dialog__header">
+            <h3 class="project-model-create-dialog__title">Создание модели</h3>
+            <p class="project-model-create-dialog__text" >
+                Укажите временные параметры, чтобы создать модель и перейти к ее заполнению.
+            </p>
+        </div>
+
+        {{ include('model/blocks/_model_time_params_form.html.twig', {
+            timeParams: modelCreateTimeParams|default({})
+        }) }}
+
+        <div class="project-model-create-dialog__actions">
+            <button
+                type="button"
+                class="project-model-create-dialog__cancel"
+                data-action="project-model-create-dialog#close"
+            >
+                Отмена
+            </button>
+            <button
+                type="submit"
+                class="projects-content__action"
+            >
+                Продолжить
+            </button>
+        </div>
+    </form>
+</dialog>

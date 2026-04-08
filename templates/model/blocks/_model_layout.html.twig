@@ -12,11 +12,21 @@
             <div class="projects-sidebar__row {% if modelTab == 'time_params' %}projects-sidebar__row--active{% endif %}">
                 <a
                     class="projects-sidebar__item {% if modelTab == 'time_params' %}projects-sidebar__item--active{% endif %}"
-                    href="{{ modelTabTimeParamsUrl|default(path('app_model_create', { projectShortId: project.shortId })) }}"
+                    href="{{ modelTabTimeParamsUrl|default(path('app_model_time_params', { projectShortId: project.shortId, modelShortId: model.shortId })) }}"
                     data-turbo-frame="model_content"
                 >
                     <span class="projects-sidebar__name">Временные параметры</span>
                     <span class="projects-sidebar__meta">Период и шаг</span>
+                </a>
+            </div>
+            <div class="projects-sidebar__row {% if modelTab == 'capex' %}projects-sidebar__row--active{% endif %}">
+                <a
+                    class="projects-sidebar__item"
+                    href="{{ modelTabCapexUrl|default(path('app_model_capex', { projectShortId: project.shortId, modelShortId: model.shortId })) }}"
+                    data-turbo-frame="model_content"
+                >
+                    <span class="projects-sidebar__name">Первоначальные инвестиции</span>
+                    <span class="projects-sidebar__meta">CAPEX и OPEX</span>
                 </a>
             </div>
         </nav>
